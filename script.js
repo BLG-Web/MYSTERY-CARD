@@ -139,7 +139,7 @@ function enablePilihKartu(arr) {
 // Kirim data ke endpoint Google Apps Script
 async function simpanLogSpin(userId, token, pilihan, hasil, gambarDipilih) {
   try {
-    await fetch('https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec', {
+    await fetch('https://script.google.com/macros/s/AKfycbzdivb2oMhr8JgXUc5ylKajDboZuvpRdGiVwmk7UHXO4mrwvNjx7QsxEYWG5l_ypw5s/exec', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({userId, token, pilihan, hasil, gambarDipilih})
