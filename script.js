@@ -54,7 +54,7 @@ async function cekInput() {
   if (idVal && tokVal) {
     desc.textContent = 'Cek token ke server...';
     try {
-      const res = await fetch(`https://script.google.com/macros/s/AKfycbzdivb2oMhr8JgXUc5ylKajDboZuvpRdGiVwmk7UHXO4mrwvNjx7QsxEYWG5l_ypw5s/exec?token=${encodeURIComponent(tokVal)}`);
+      const res = await fetch(`https://script.google.com/macros/s/AKfycbwBaUl1wGX-P48lNPEA16r-usiwBxeW4TjExdEXxVh_3ETyW6MJx3MOdHxFfOKrmUKIFw/exec?token=${encodeURIComponent(tokVal)}`);
       const valid = await res.json();
       if (valid === true) {
         btnSpin.disabled = false;
@@ -139,7 +139,7 @@ function enablePilihKartu(arr) {
 // Kirim data ke endpoint Google Apps Script
 async function simpanLogSpin(userId, token, pilihan, hasil, gambarDipilih) {
   try {
-    await fetch('https://script.google.com/macros/s/AKfycbzdivb2oMhr8JgXUc5ylKajDboZuvpRdGiVwmk7UHXO4mrwvNjx7QsxEYWG5l_ypw5s/exec', {
+    await fetch('https://script.google.com/macros/s/AKfycbwBaUl1wGX-P48lNPEA16r-usiwBxeW4TjExdEXxVh_3ETyW6MJx3MOdHxFfOKrmUKIFw/exec', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({userId, token, pilihan, hasil, gambarDipilih})
