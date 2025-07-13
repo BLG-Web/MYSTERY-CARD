@@ -23,12 +23,13 @@ body {
   width: 100%;
   max-width: 1200px;
   min-width: 320px;
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0 0 3vw 0;
+  padding: 8px 0 12px 0;
   box-sizing: border-box;
   z-index: 1;
   overflow-x: hidden;
