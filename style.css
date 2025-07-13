@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap');
 body {
-  background: radial-gradient(circle at 50% 55%, #38b6ff 0%, #0a2342 40%, #010a1a 80%);
-  background-blend-mode: lighten;
+  background: radial-gradient(circle at 50% 55%, #38b6ff 0%, #0a2342 40%, #010a1a 80%),
+    repeating-conic-gradient(from 0deg, #38b6ff33 0deg 10deg, transparent 10deg 20deg),
+    linear-gradient(120deg, #0a2342 0%, #010a1a 100%);
+  background-blend-mode: lighten, screen, normal;
   color: #eaf3fa;
   font-family: 'Montserrat', Arial, sans-serif;
   min-height: 100vh;
@@ -15,7 +17,7 @@ body {
   overflow-x: hidden;
 }
 .main-area {
-  width: 90vw;
+  width: 100vw;
   max-width: 1200px;
   min-width: 320px;
   margin: 0 auto;
@@ -26,6 +28,7 @@ body {
   padding: 2vw 0 3vw 0;
   box-sizing: border-box;
   z-index: 1;
+  overflow-x: hidden;
 }
 h2 {
   font-family: 'Montserrat', Arial, sans-serif;
@@ -43,6 +46,8 @@ h2 {
   margin-top: 18px;
   z-index: 1;
   justify-items: center;
+  width: 100%;
+  max-width: 480px;
 }
 .card-outer {
   perspective: 1200px;
@@ -238,15 +243,20 @@ h2 {
 }
 @media (max-width: 600px) {
   .main-area {
-    width: 99vw;
+    width: 100vw;
     padding: 2vw 0 3vw 0;
+    overflow-x: hidden;
   }
   .card-grid {
     gap: 4vw;
+    max-width: 99vw;
+    width: 99vw;
   }
   .card-outer {
     width: 22vw;
     height: 33vw;
+    min-width: 70px;
+    min-height: 110px;
   }
   .inputgroup, .desc, .msg {
     max-width: 99vw;
