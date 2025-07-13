@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap');
+*, *::before, *::after {
+  box-sizing: border-box;
+}
 body {
   background: radial-gradient(circle at 50% 55%, #38b6ff 0%, #0a2342 40%, #010a1a 80%),
     repeating-conic-gradient(from 0deg, #38b6ff33 0deg 10deg, transparent 10deg 20deg),
@@ -17,7 +20,7 @@ body {
   overflow-x: hidden;
 }
 .main-area {
-  width: 100vw;
+  width: 100%;
   max-width: 1200px;
   min-width: 320px;
   margin: 0 auto;
@@ -25,7 +28,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2vw 0 3vw 0;
+  padding: 0 0 3vw 0;
   box-sizing: border-box;
   z-index: 1;
   overflow-x: hidden;
@@ -257,8 +260,11 @@ h2 {
     box-sizing: border-box;
   }
   .card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
     gap: 4vw;
-    max-width: 92vw;
+    max-width: 260px;
     width: 92vw;
     margin-left: auto;
     margin-right: auto;
