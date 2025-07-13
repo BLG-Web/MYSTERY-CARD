@@ -1,10 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap');
 body {
   background: radial-gradient(circle at 50% 55%, #38b6ff 0%, #0a2342 40%, #010a1a 80%),
     repeating-conic-gradient(from 0deg, #38b6ff33 0deg 10deg, transparent 10deg 20deg),
     linear-gradient(120deg, #0a2342 0%, #010a1a 100%);
   background-blend-mode: lighten, screen, normal;
   color: #eaf3fa;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   min-height: 100vh;
   margin: 0;
   display: flex;
@@ -29,8 +30,11 @@ body {
   z-index: 1;
 }
 h2 {
-  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: clamp(2.5rem, 6vw, 4rem);
   margin: clamp(24px, 4vw, 64px) 0 clamp(18px, 2vw, 36px) 0;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 24px #38b6ff99, 0 0 8px #010a1a;
 }
 .card-grid {
   display: grid;
@@ -43,19 +47,19 @@ h2 {
 }
 .card-outer {
   perspective: 1400px;
-  width: clamp(60px, 15vw, 160px);
-  height: clamp(90px, 22vw, 220px);
+  width: clamp(70px, 15vw, 180px);
+  height: clamp(110px, 22vw, 260px);
   position: relative;
   transition: transform 0.18s cubic-bezier(.4,2,.6,1);
 }
-.card-outer:hover { transform: scale(1.07) translateY(-8px); }
+.card-outer:hover { transform: scale(1.09) translateY(-10px); }
 .card {
   width: 100%;
   height: 100%;
-  border-radius: 18px;
-  box-shadow: 0 8px 40px #3a506b99, 0 2px 12px #c7e0f755;
+  border-radius: 22px;
+  box-shadow: 0 8px 40px #38b6ff55, 0 2px 12px #c7e0f755;
   background: #23272f;
-  border: 4px solid #c7e0f7;
+  border: 4px solid #38b6ff;
   transition: box-shadow 0.22s, border 0.22s, transform 0.2s;
   cursor: pointer;
   position: relative;
@@ -64,12 +68,12 @@ h2 {
 }
 .card.selected {
   border: 4px solid #fff;
-  box-shadow: 0 0 60px #c7e0f7cc, 0 4px 24px #3a506bcc;
+  box-shadow: 0 0 60px #38b6ffcc, 0 4px 24px #3a506bcc;
   z-index: 2;
-  transform: scale(1.13);
+  transform: scale(1.15);
 }
 .card.flipped {
-  transform: rotateY(180deg) scale(1.13);
+  transform: rotateY(180deg) scale(1.15);
   cursor: default;
   pointer-events: none;
 }
@@ -88,16 +92,15 @@ h2 {
   transition: background 0.18s;
 }
 .card .face {
-  background: linear-gradient(120deg, #23272f 60%, #c7e0f733 100%);
-  box-shadow: 0 2px 12px #c7e0f733;
+  background: linear-gradient(120deg, #23272f 60%, #38b6ff33 100%);
+  box-shadow: 0 2px 12px #38b6ff33;
 }
 .card .back {
-  background: linear-gradient(120deg, #f6fafd 90%, #c7e0f7 100%);
+  background: linear-gradient(120deg, #f6fafd 90%, #38b6ff 100%);
   color: #3a506b;
   transform: rotateY(180deg);
   font-size: 22px;
-  flex-direction: column;
-  font-weight: 800;
+  font-weight: 900;
   letter-spacing: 1.2px;
   padding: 0 8px;
   text-align: center;
@@ -142,16 +145,15 @@ h2 {
   background: #232b3a;
 }
 .spin-btn {
-  background: linear-gradient(90deg, #fff 0%, #c7e0f7 40%, #3a506b 130%);
+  background: linear-gradient(90deg, #38b6ff 0%, #fff 100%);
   color: #23272f;
-  border: none;
-  font-size: clamp(16px, 2vw, 28px);
+  font-size: clamp(18px, 2vw, 30px);
   font-weight: 900;
   border-radius: 12px;
+  box-shadow: 0 2px 18px #38b6ff4b, 0 0 24px #38b6ff99;
   padding: clamp(10px, 1vw, 20px) clamp(24px, 4vw, 64px);
   margin: 10px auto 0 auto;
   cursor: pointer;
-  box-shadow: 0 2px 18px #c7e0f74b;
   transition: background .12s, opacity .16s, box-shadow .18s, color .18s;
   letter-spacing: 1.3px;
   opacity: .7;
@@ -164,9 +166,9 @@ h2 {
 .spin-btn.active {
   opacity: 1;
   pointer-events: auto;
-  box-shadow: 0 0 24px #c7e0f7cc;
-  color: #3a506b;
-  background: linear-gradient(90deg, #fff 0%, #c7e0f7 60%, #3a506b 130%);
+  box-shadow: 0 0 24px #38b6ffcc;
+  color: #23272f;
+  background: linear-gradient(90deg, #38b6ff 0%, #fff 100%);
 }
 .spin-btn:active {
   background: #fff;
@@ -175,14 +177,13 @@ h2 {
 .claim-btn {
   background: linear-gradient(90deg, #ff7b00 0%, #ffdc00 100%);
   color: #23272f;
-  border: none;
-  font-size: clamp(16px, 2vw, 28px);
+  font-size: clamp(18px, 2vw, 30px);
   font-weight: 900;
   border-radius: 12px;
+  box-shadow: 0 2px 18px #ffdc004b, 0 0 24px #ffdc0099;
   padding: clamp(10px, 1vw, 20px) clamp(24px, 4vw, 64px);
   margin: 18px auto 0 auto;
   cursor: pointer;
-  box-shadow: 0 2px 18px #ffdc004b;
   transition: background .12s, opacity .16s, box-shadow .18s, color .18s;
   letter-spacing: 1.3px;
   outline: none;
@@ -191,25 +192,29 @@ h2 {
   display: block;
   text-shadow: 0 1px 0 #fff8;
 }
+.claim-btn:active {
+  background: #fffbe6;
+  color: #ff7b00;
+}
 .desc {
-  font-size: clamp(14px, 2vw, 22px);
+  font-size: clamp(15px, 2vw, 24px);
+  font-weight: 700;
   margin-top: clamp(10px, 2vw, 24px);
   color: #eaf3fa;
   text-align: center;
   text-shadow: 0 1px 0 #000a, 0 0 8px #c7e0f777;
-  font-weight: 600;
   max-width: 440px;
   margin-left: auto;
   margin-right: auto;
   z-index: 1;
 }
 .msg {
-  font-size: 23px;
-  color: #c7e0f7;
-  margin: 18px 0 0 0;
+  font-size: 25px;
+  color: #38b6ff;
   font-weight: 900;
+  text-shadow: 0 2px 12px #38b6ffcc, 0 0 8px #fff8;
+  margin: 18px 0 0 0;
   text-align: center;
-  text-shadow: 0 2px 12px #3a506bcc, 0 0 8px #fff8;
   min-height: 32px;
   max-width: 440px;
   margin-left: auto;
