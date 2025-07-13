@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>MYSTERY CARD SPIN</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="main-area">
+    <h2>MYSTERY CARD SPIN</h2>
+    <div class="card-grid" id="cardGrid"></div>
+    <div class="inputgroup">
+      <input type="text" id="inputId" placeholder="Masukkan ID" autocomplete="off">
+      <input type="text" id="inputToken" placeholder="Masukkan Token" autocomplete="off">
+      <button class="spin-btn" id="btnSpin" disabled>SPIN</button>
+    </div>
+    <div class="desc" id="desc">Isi ID dan Token, lalu tekan SPIN untuk mengacak kartu!</div>
+    <div class="msg" id="msg"></div>
+    <button class="claim-btn" id="btnClaim" style="display:none">CLAIM SEKARANG</button>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
