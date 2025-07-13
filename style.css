@@ -263,8 +263,8 @@ h2 {
   .card-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    gap: 4vw;
+    grid-template-rows: repeat(4, 1fr);
+    gap: 18px;
     max-width: 260px;
     width: 92vw;
     margin-left: auto;
