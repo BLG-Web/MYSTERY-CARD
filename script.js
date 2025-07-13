@@ -54,7 +54,7 @@ async function cekInput() {
   if (idVal && tokVal) {
     desc.textContent = 'Cek token ke server...';
     try {
-      const res = await fetch(`https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?token=${encodeURIComponent(tokVal)}`);
+      const res = await fetch(`https://script.google.com/macros/s/AKfycbzdivb2oMhr8JgXUc5ylKajDboZuvpRdGiVwmk7UHXO4mrwvNjx7QsxEYWG5l_ypw5s/exec?token=${encodeURIComponent(tokVal)}`);
       const valid = await res.json();
       if (valid === true) {
         btnSpin.disabled = false;
