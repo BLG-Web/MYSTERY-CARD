@@ -40,26 +40,27 @@ h2 {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  gap: clamp(16px, 4vw, 64px);
-  margin-bottom: clamp(10px, 2vw, 32px);
-  margin-top: clamp(8px, 2vw, 24px);
+  gap: 32px;
+  margin-bottom: 32px;
+  margin-top: 18px;
   z-index: 1;
+  justify-items: center;
 }
 .card-outer {
-  perspective: 1400px;
-  width: clamp(70px, 15vw, 180px);
-  height: clamp(110px, 22vw, 260px);
+  perspective: 1200px;
+  width: 120px;
+  height: 180px;
   position: relative;
   transition: transform 0.18s cubic-bezier(.4,2,.6,1);
 }
-.card-outer:hover { transform: scale(1.09) translateY(-10px); }
+.card-outer:hover { transform: scale(1.07) translateY(-8px); }
 .card {
   width: 100%;
   height: 100%;
-  border-radius: 22px;
-  box-shadow: 0 8px 40px #38b6ff55, 0 2px 12px #c7e0f755;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px #38b6ff33, 0 2px 8px #c7e0f755;
   background: #23272f;
-  border: 4px solid #38b6ff;
+  border: 3px solid #38b6ff;
   transition: box-shadow 0.22s, border 0.22s, transform 0.2s;
   cursor: pointer;
   position: relative;
@@ -67,15 +68,27 @@ h2 {
   overflow: hidden;
 }
 .card.selected {
-  border: 4px solid #fff;
-  box-shadow: 0 0 60px #38b6ffcc, 0 4px 24px #3a506bcc;
+  border: 3px solid #fff;
+  box-shadow: 0 0 32px #38b6ffcc, 0 4px 16px #3a506bcc;
   z-index: 2;
-  transform: scale(1.15);
+  transform: scale(1.12);
 }
 .card.flipped {
-  transform: rotateY(180deg) scale(1.15);
+  transform: rotateY(180deg) scale(1.12);
   cursor: default;
   pointer-events: none;
+}
+.card .face img,
+.card .back img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0 2px 8px #38b6ff99);
+}
+.card .back img {
+  margin-bottom: 8px;
 }
 .card .face, .card .back {
   position: absolute;
@@ -88,23 +101,23 @@ h2 {
   justify-content: center;
   backface-visibility: hidden;
   border-radius: inherit;
-  font-size: 44px;
+  font-size: 32px;
   transition: background 0.18s;
 }
 .card .face {
   background: linear-gradient(120deg, #23272f 60%, #38b6ff33 100%);
-  box-shadow: 0 2px 12px #38b6ff33;
+  box-shadow: 0 2px 8px #38b6ff33;
 }
 .card .back {
   background: linear-gradient(120deg, #f6fafd 90%, #38b6ff 100%);
   color: #3a506b;
   transform: rotateY(180deg);
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 900;
-  letter-spacing: 1.2px;
-  padding: 0 8px;
+  letter-spacing: 1.1px;
+  padding: 0 6px;
   text-align: center;
-  box-shadow: 0 2px 16px #c7e0f755;
+  box-shadow: 0 2px 12px #38b6ff55;
 }
 .card-anim {
   animation: cardSpin 0.18s linear infinite;
@@ -116,79 +129,75 @@ h2 {
 .inputgroup {
   margin: 18px 0 0 0;
   width: 100%;
-  max-width: 440px;
+  max-width: 340px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(8px, 2vw, 18px);
+  gap: 12px;
   z-index: 1;
 }
 .inputgroup input {
   background: #23272f;
-  color: #c7e0f7;
-  border: 2.5px solid #c7e0f7cc;
-  border-radius: 10px;
+  color: #eaf3fa;
+  border: 2px solid #38b6ffcc;
+  border-radius: 8px;
   width: 100%;
-  max-width: 210px;
-  padding: clamp(8px, 1vw, 18px) clamp(10px, 2vw, 24px);
-  font-size: clamp(14px, 2vw, 22px);
+  max-width: 180px;
+  padding: 10px 18px;
+  font-size: 16px;
   outline: none;
   transition: border .18s, box-shadow .18s;
   font-weight: 600;
-  box-shadow: 0 2px 10px #c7e0f722;
+  box-shadow: 0 2px 8px #38b6ff22;
   letter-spacing: 1px;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 .inputgroup input:focus {
-  border: 2.5px solid #fff;
-  box-shadow: 0 0 12px #c7e0f777;
+  border: 2px solid #fff;
+  box-shadow: 0 0 8px #38b6ff77;
   background: #232b3a;
 }
 .spin-btn {
   background: linear-gradient(90deg, #38b6ff 0%, #fff 100%);
   color: #23272f;
-  font-size: clamp(18px, 2vw, 30px);
+  font-size: 18px;
   font-weight: 900;
-  border-radius: 12px;
-  box-shadow: 0 2px 18px #38b6ff4b, 0 0 24px #38b6ff99;
-  padding: clamp(10px, 1vw, 20px) clamp(24px, 4vw, 64px);
+  border-radius: 10px;
+  box-shadow: 0 2px 12px #38b6ff4b, 0 0 16px #38b6ff99;
+  padding: 12px 32px;
   margin: 10px auto 0 auto;
   cursor: pointer;
   transition: background .12s, opacity .16s, box-shadow .18s, color .18s;
-  letter-spacing: 1.3px;
+  letter-spacing: 1.1px;
   opacity: .7;
   outline: none;
   width: 100%;
-  max-width: 400px;
+  max-width: 220px;
   display: block;
   text-shadow: 0 1px 0 #fff8;
 }
 .spin-btn.active {
   opacity: 1;
   pointer-events: auto;
-  box-shadow: 0 0 24px #38b6ffcc;
+  box-shadow: 0 0 16px #38b6ffcc;
   color: #23272f;
   background: linear-gradient(90deg, #38b6ff 0%, #fff 100%);
-}
-.spin-btn:active {
-  background: #fff;
-  color: #3a506b;
 }
 .claim-btn {
   background: linear-gradient(90deg, #ff7b00 0%, #ffdc00 100%);
   color: #23272f;
-  font-size: clamp(18px, 2vw, 30px);
+  font-size: 18px;
   font-weight: 900;
-  border-radius: 12px;
-  box-shadow: 0 2px 18px #ffdc004b, 0 0 24px #ffdc0099;
-  padding: clamp(10px, 1vw, 20px) clamp(24px, 4vw, 64px);
+  border-radius: 10px;
+  box-shadow: 0 2px 12px #ffdc004b, 0 0 16px #ffdc0099;
+  padding: 12px 32px;
   margin: 18px auto 0 auto;
   cursor: pointer;
   transition: background .12s, opacity .16s, box-shadow .18s, color .18s;
-  letter-spacing: 1.3px;
+  letter-spacing: 1.1px;
   outline: none;
   width: 100%;
-  max-width: 400px;
+  max-width: 220px;
   display: block;
   text-shadow: 0 1px 0 #fff8;
 }
@@ -197,30 +206,30 @@ h2 {
   color: #ff7b00;
 }
 .desc {
-  font-size: clamp(15px, 2vw, 24px);
+  font-size: 16px;
   font-weight: 700;
-  margin-top: clamp(10px, 2vw, 24px);
+  margin-top: 16px;
   color: #eaf3fa;
   text-align: center;
-  text-shadow: 0 1px 0 #000a, 0 0 8px #c7e0f777;
-  max-width: 440px;
+  text-shadow: 0 1px 0 #000a, 0 0 8px #38b6ff77;
+  max-width: 340px;
   margin-left: auto;
   margin-right: auto;
   z-index: 1;
 }
 .msg {
-  font-size: 25px;
+  font-size: 18px;
   color: #38b6ff;
   font-weight: 900;
-  text-shadow: 0 2px 12px #38b6ffcc, 0 0 8px #fff8;
+  text-shadow: 0 2px 8px #38b6ffcc, 0 0 4px #fff8;
   margin: 18px 0 0 0;
   text-align: center;
-  min-height: 32px;
-  max-width: 440px;
+  min-height: 28px;
+  max-width: 340px;
   margin-left: auto;
   margin-right: auto;
   z-index: 1;
-  letter-spacing: 1.2px;
+  letter-spacing: 1px;
 }
 @media (max-width: 600px) {
   .main-area {
@@ -228,10 +237,10 @@ h2 {
     padding: 2vw 0 3vw 0;
   }
   .card-grid {
-    gap: 5vw;
+    gap: 4vw;
   }
   .card-outer {
-    width: 21vw;
+    width: 22vw;
     height: 33vw;
   }
   .inputgroup, .desc, .msg {
