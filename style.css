@@ -1,9 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap');
 body {
-  background: radial-gradient(circle at 50% 55%, #38b6ff 0%, #0a2342 40%, #010a1a 80%),
-    repeating-conic-gradient(from 0deg, #38b6ff33 0deg 10deg, transparent 10deg 20deg),
-    linear-gradient(120deg, #0a2342 0%, #010a1a 100%);
-  background-blend-mode: lighten, screen, normal;
+  background: radial-gradient(circle at 50% 55%, #38b6ff 0%, #0a2342 40%, #010a1a 80%);
+  background-blend-mode: lighten;
   color: #eaf3fa;
   font-family: 'Montserrat', Arial, sans-serif;
   min-height: 100vh;
@@ -257,19 +255,20 @@ h2 {
     font-size: 6vw;
   }
   .spin-btn, .claim-btn {
-    max-width: 260px;
-    width: 90vw;
-    min-width: 140px;
-  }
-  .inputrow {
-    flex-direction: column;
-    gap: 10px;
-    max-width: 99vw;
-    align-items: center;
-  }
-  .inputrow input {
     max-width: 220px;
     width: 90vw;
     min-width: 120px;
+  }
+  .inputrow {
+    flex-direction: row;
+    gap: 12px;
+    max-width: 99vw;
+    align-items: center;
+    justify-content: center;
+  }
+  .inputrow input {
+    max-width: 120px;
+    width: 40vw;
+    min-width: 80px;
   }
 }
