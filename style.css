@@ -49,6 +49,7 @@ h2 {
   margin-top: 18px;
   z-index: 1;
   justify-items: center;
+  justify-content: center;
   width: 100%;
   max-width: 480px;
   margin-left: auto;
