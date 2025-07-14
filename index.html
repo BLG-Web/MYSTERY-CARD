@@ -6,6 +6,10 @@
   <title>MYSTERY CARD SPIN</title>
   <link rel="stylesheet" href="style.css">
   <style>
+    html {
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
     body {
       background: radial-gradient(circle at 50% 55%, #38b6ff 0%, #0a2342 40%, #010a1a 80%),
         repeating-conic-gradient(from 0deg, #38b6ff33 0deg 10deg, transparent 10deg 20deg),
@@ -24,6 +28,7 @@
       justify-content: flex-start;
       position: relative;
       overflow-x: hidden;
+      width: 100%;
     }
     body::before {
       content: '';
@@ -36,7 +41,7 @@
       filter: blur(2px);
     }
     .main-area {
-      width: 90vw;
+      width: 100%;
       max-width: 1200px;
       min-width: 320px;
       margin: 0 auto;
@@ -48,6 +53,7 @@
       box-sizing: border-box;
       z-index: 1;
       position: relative;
+      overflow-x: hidden;
     }
     h2 {
       font-size: clamp(2rem, 4vw, 3.5rem);
@@ -286,35 +292,62 @@
     }
     @media (max-width: 600px) {
       .main-area {
-        width: 99vw;
-        padding: 2vw 0 3vw 0;
+        width: 100%;
+        padding: 2vw;
+        margin: 0;
       }
       .card-grid {
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(3, 1fr);
         gap: 3vw;
         max-width: 280px;
+        width: 100%;
       }
       .card-outer {
         width: 21vw;
         height: 33vw;
       }
       .inputgroup, .inputrow, .desc, .msg {
-        max-width: 99vw;
+        width: 100%;
+        max-width: 100%;
       }
       h2 {
         font-size: 6vw;
+        width: 100%;
+        text-align: center;
       }
       .spin-btn {
-        max-width: 99vw;
+        width: 100%;
+        max-width: 100%;
       }
       .inputrow input {
+        width: 100%;
         max-width: 100%;
       }
     }
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap');
     *, *::before, *::after {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+    /* Hapus scroll bar duplikat */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #1a1a1a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #38b6ff;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #0a2342;
     }
     /* Hapus semua CSS duplikat - gunakan hanya yang di bagian atas */
     .menu-bar {
@@ -327,6 +360,11 @@
       font-weight: bold;
       font-size: 1.2rem;
       box-shadow: 0 2px 12px #ff003366;
+      width: 100%;
+      box-sizing: border-box;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
     .logo {
       font-size: 1.6rem;
@@ -372,6 +410,9 @@
       }
       .burger {
         display: flex;
+      }
+      .menu-bar {
+        padding: 12px 16px;
       }
     }
   </style>
