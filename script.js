@@ -43,7 +43,7 @@ function renderCardLogo() {
 }
 renderCardLogo();
 
-// Validasi token ke backend lokal
+// Validasi token ke backend proxy
 async function cekInput() {
   const idVal = inputId.value.trim();
   const tokVal = inputToken.value.trim();
@@ -54,27 +54,10 @@ async function cekInput() {
   if (idVal && tokVal) {
     desc.textContent = 'Cek token ke server...';
     try {
-      // Ambil data dari backend lokal
-      const res = await fetch('http://localhost:3000/sheet');
-      const data = await res.json();
-      // Cari token di sheet
-      let valid = false;
-      if (data) {
-        for (let i = 1; i < data.length; i++) {
-          const row = data[i];
-          const rowToken = (row[2] || '').trim();
-          const pilihan = (row[3] || '').trim();
-          const hasil = (row[4] || '').trim();
-          const gambar = (row[5] || '').trim();
-          if (rowToken.toUpperCase() === tokVal.trim().toUpperCase()) {
-            if (!pilihan && !hasil && !gambar) {
-              valid = true;
-            }
-            break;
-          }
-        }
-      }
-      if (valid) {
+      // Ambil data dari backend proxy
+      const res = await fetch(`http://localhost:3000/api?token=${encodeURIComponent(tokVal)}`);
+      const valid = await res.json();
+      if (valid === true) {
         btnSpin.disabled = false;
         btnSpin.classList.add('active');
         desc.textContent = 'Tekan SPIN untuk mengacak kartu!';
@@ -154,10 +137,10 @@ function enablePilihKartu(arr) {
   });
 }
 
-// Kirim data ke backend lokal
+// Kirim data ke backend proxy
 async function simpanLogSpin(userId, token, pilihan, hasil, gambarDipilih) {
   try {
-    await fetch('http://localhost:3000/sheet', {
+    await fetch('http://localhost:3000/api', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({userId, token, pilihan, hasil, gambarDipilih})
