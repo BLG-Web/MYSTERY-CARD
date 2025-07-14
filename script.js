@@ -109,34 +109,131 @@ btnSpin.onclick = ()=>{
 };
 
 function shuffleAnim() {
-  let duration = 2.5; // detik
-  let maxSpin = Math.round(duration * 1000 / 60);
-  let spin=0;
+  let duration = 4.0; // detik - lebih lama untuk animasi yang lebih smooth
+  let totalFrames = Math.round(duration * 1000 / 50); // 50ms per frame untuk smooth animation
+  let currentFrame = 0;
+  
   // Pastikan status tetap 'Mengacak kartu...' selama animasi
   setStatus('Mengacak kartu...');
   
-  const interval = setInterval(()=>{
-    // Acak karakter untuk animasi visual
-    const arr = hadiahList.slice().sort(()=>Math.random()-0.5);
-    cards.forEach((c,i)=>{
-      c.classList.add('card-anim');
-      c.querySelector('.face').innerHTML = `<img src="${arr[i%arr.length].img}" style="filter:brightness(0.95) blur(0.5px);">`;
-    });
-    spin++;
-    if (spin>maxSpin){
-      clearInterval(interval);
-      console.log('Animasi selesai, mempersiapkan kartu...');
-      cards.forEach((c, i)=>{
-        c.classList.remove('card-anim');
-        c.querySelector('.face').innerHTML = `<img src="${LOGO_URL}">`;
-        c.querySelector('.back').innerHTML = '';
+  // Fase 1: Kartu bergerak dan bertukar posisi (2 detik pertama)
+  const shuffleInterval = setInterval(() => {
+    if (currentFrame < totalFrames * 0.5) { // 50% waktu untuk shuffle
+      // Animasi kartu bertukar posisi
+      cards.forEach((card, i) => {
+        card.classList.add('card-shuffle');
+        
+        // Random movement untuk setiap kartu
+        const randomX = (Math.random() - 0.5) * 100;
+        const randomY = (Math.random() - 0.5) * 50;
+        const randomRotate = (Math.random() - 0.5) * 360;
+        const randomScale = 0.8 + Math.random() * 0.4;
+        
+        card.style.transform = `
+          translate(${randomX}px, ${randomY}px) 
+          rotate(${randomRotate}deg) 
+          scale(${randomScale})
+        `;
+        card.style.zIndex = Math.floor(Math.random() * 10);
       });
-      hasilArr = hadiahList.slice().sort(()=>Math.random()-0.5).slice(0,8);
-      // Setelah animasi selesai, baru ubah status
+    } else {
+      // Fase 2: Kartu kembali ke posisi normal dan mulai flip
+      clearInterval(shuffleInterval);
+      
+      // Reset posisi kartu
+      cards.forEach((card, i) => {
+        card.classList.remove('card-shuffle');
+        card.style.transform = '';
+        card.style.zIndex = '';
+      });
+      
+      // Mulai fase flip animation
+      startFlipAnimation();
+    }
+    currentFrame++;
+  }, 50);
+  
+  function startFlipAnimation() {
+    let flipFrame = 0;
+    const flipDuration = totalFrames * 0.5; // 50% waktu sisanya untuk flip
+    
+    const flipInterval = setInterval(() => {
+      // Acak gambar untuk setiap kartu dengan efek flip
+      const arr = hadiahList.slice().sort(() => Math.random() - 0.5);
+      
+      cards.forEach((card, i) => {
+        card.classList.add('card-flip-anim');
+        
+        // Efek flip 3D yang smooth
+        const flipAngle = (flipFrame * 10) % 360;
+        card.style.transform = `rotateY(${flipAngle}deg)`;
+        
+        // Ganti gambar pada titik tengah flip
+        if (flipAngle % 180 < 90) {
+          card.querySelector('.face').innerHTML = `
+            <img src="${arr[i % arr.length].img}" 
+                 style="filter: brightness(0.9) blur(0.3px) hue-rotate(${Math.random() * 360}deg);">
+          `;
+        } else {
+          card.querySelector('.face').innerHTML = `
+            <img src="${LOGO_URL}" 
+                 style="filter: brightness(1.1) contrast(1.2);">
+          `;
+        }
+        
+        // Efek glow random
+        if (Math.random() > 0.7) {
+          card.style.boxShadow = `
+            0 0 20px rgba(255, 215, 0, 0.6),
+            0 0 40px rgba(255, 215, 0, 0.4),
+            0 0 60px rgba(255, 215, 0, 0.2)
+          `;
+        } else {
+          card.style.boxShadow = '';
+        }
+      });
+      
+      flipFrame++;
+      
+      if (flipFrame >= flipDuration) {
+        clearInterval(flipInterval);
+        finishAnimation();
+      }
+    }, 50);
+  }
+  
+  function finishAnimation() {
+    console.log('Animasi selesai, mempersiapkan kartu...');
+    
+    // Reset semua kartu ke kondisi normal
+    cards.forEach((card, i) => {
+      card.classList.remove('card-flip-anim', 'card-shuffle');
+      card.style.transform = '';
+      card.style.zIndex = '';
+      card.style.boxShadow = '';
+      card.querySelector('.face').innerHTML = `<img src="${LOGO_URL}">`;
+      card.querySelector('.back').innerHTML = '';
+    });
+    
+    // Animasi final: kartu muncul satu per satu
+    cards.forEach((card, i) => {
+      setTimeout(() => {
+        card.classList.add('card-reveal');
+        card.style.transform = 'scale(1.05)';
+        setTimeout(() => {
+          card.style.transform = '';
+          card.classList.remove('card-reveal');
+        }, 200);
+      }, i * 100);
+    });
+    
+    // Generate hasil dan aktifkan pemilihan kartu
+    setTimeout(() => {
+      hasilArr = hadiahList.slice().sort(() => Math.random() - 0.5).slice(0, 8);
       console.log('Memanggil enablePilihKartu...');
       enablePilihKartu(hasilArr);
-    }
-  },60);
+    }, 800);
+  }
 }
 function enablePilihKartu(arr) {
   // Pastikan status ter-update dengan benar
