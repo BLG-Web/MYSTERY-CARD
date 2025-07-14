@@ -52,23 +52,26 @@ async function cekInput() {
   const tokVal = inputToken.value.trim();
   btnSpin.disabled = true;
   btnSpin.classList.remove('active');
-  desc.textContent = 'Isi ID dan Token, lalu tekan SPIN!';
+  // Jangan timpa desc jika sedang spin
+  if (!sudahSpin) {
+    desc.textContent = 'Isi ID dan Token, lalu tekan SPIN!';
+  }
   msg.textContent = '';
   if (idVal && tokVal) {
-    desc.textContent = 'Cek token ke server...';
+    if (!sudahSpin) desc.textContent = 'Cek token ke server...';
     try {
       const res = await fetch(`${APPS_SCRIPT_URL}?token=${encodeURIComponent(tokVal)}`);
       const valid = await res.json();
       if (valid === true) {
         btnSpin.disabled = false;
         btnSpin.classList.add('active');
-        desc.textContent = 'Tekan SPIN untuk mengacak kartu!';
+        if (!sudahSpin) desc.textContent = 'Tekan SPIN untuk mengacak kartu!';
       } else {
-        desc.textContent = 'Token tidak valid atau sudah digunakan!';
+        if (!sudahSpin) desc.textContent = 'Token tidak valid atau sudah digunakan!';
         msg.textContent = 'Token tidak valid atau sudah digunakan!';
       }
     } catch(e) {
-      desc.textContent = 'Gagal koneksi ke server.';
+      if (!sudahSpin) desc.textContent = 'Gagal koneksi ke server.';
       msg.textContent = 'Gagal koneksi ke server.';
     }
   }
@@ -94,6 +97,8 @@ function shuffleAnim() {
   let duration = 2.5; // detik
   let maxSpin = Math.round(duration * 1000 / 60);
   let spin=0;
+  // Pastikan status tetap 'Mengacak kartu...' selama animasi
+  desc.textContent = 'Mengacak kartu...';
   const interval = setInterval(()=>{
     // Acak karakter untuk animasi visual
     const arr = hadiahList.slice().sort(()=>Math.random()-0.5);
@@ -110,11 +115,11 @@ function shuffleAnim() {
         c.querySelector('.back').innerHTML = '';
       });
       hasilArr = hadiahList.slice().sort(()=>Math.random()-0.5).slice(0,8);
+      // Setelah animasi selesai, baru ubah status
       enablePilihKartu(hasilArr);
     }
   },60);
 }
-
 function enablePilihKartu(arr) {
   desc.textContent = 'Pilih salah satu kartu!';
   cards.forEach((card,idx)=>{
