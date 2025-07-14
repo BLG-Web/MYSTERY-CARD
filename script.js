@@ -48,30 +48,28 @@ const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzdivb2oMhr8JgX
 
 // Validasi token ke endpoint Google Apps Script langsung
 async function cekInput() {
+  if (sudahSpin) return; // Jangan cek token lagi setelah spin
   const idVal = inputId.value.trim();
   const tokVal = inputToken.value.trim();
   btnSpin.disabled = true;
   btnSpin.classList.remove('active');
-  // Jangan timpa desc jika sedang spin
-  if (!sudahSpin) {
-    desc.textContent = 'Isi ID dan Token, lalu tekan SPIN!';
-  }
+  desc.textContent = 'Isi ID dan Token, lalu tekan SPIN!';
   msg.textContent = '';
   if (idVal && tokVal) {
-    if (!sudahSpin) desc.textContent = 'Cek token ke server...';
+    desc.textContent = 'Cek token ke server...';
     try {
       const res = await fetch(`${APPS_SCRIPT_URL}?token=${encodeURIComponent(tokVal)}`);
       const valid = await res.json();
       if (valid === true) {
         btnSpin.disabled = false;
         btnSpin.classList.add('active');
-        if (!sudahSpin) desc.textContent = 'Tekan SPIN untuk mengacak kartu!';
+        desc.textContent = 'Tekan SPIN untuk mengacak kartu!';
       } else {
-        if (!sudahSpin) desc.textContent = 'Token tidak valid atau sudah digunakan!';
+        desc.textContent = 'Token tidak valid atau sudah digunakan!';
         msg.textContent = 'Token tidak valid atau sudah digunakan!';
       }
     } catch(e) {
-      if (!sudahSpin) desc.textContent = 'Gagal koneksi ke server.';
+      desc.textContent = 'Gagal koneksi ke server.';
       msg.textContent = 'Gagal koneksi ke server.';
     }
   }
