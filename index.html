@@ -50,14 +50,20 @@
       font-size: clamp(2rem, 4vw, 3.5rem);
       margin: clamp(24px, 4vw, 64px) 0 clamp(18px, 2vw, 36px) 0;
     }
-    .card-row {
-      display: flex;
-      gap: clamp(16px, 4vw, 64px);
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: clamp(16px, 4vw, 32px);
       justify-content: center;
-      align-items: end;
+      align-items: center;
       margin-bottom: clamp(10px, 2vw, 32px);
       margin-top: clamp(8px, 2vw, 24px);
       z-index: 1;
+      width: 100%;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
     }
     .card-outer {
       perspective: 1400px;
@@ -280,8 +286,11 @@
         width: 99vw;
         padding: 2vw 0 3vw 0;
       }
-      .card-row {
-        gap: 5vw;
+      .card-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        gap: 3vw;
+        max-width: 280px;
       }
       .card-outer {
         width: 21vw;
@@ -633,7 +642,7 @@ h2 {
   </nav>
   <div class="main-area">
     <h2>MYSTERY CARD SPIN</h2>
-    <div class="card-row" id="cardGrid"></div>
+    <div class="card-grid" id="cardGrid"></div>
     <div class="inputgroup">
       <div class="inputrow">
         <input type="text" id="inputId" placeholder="Masukkan ID" autocomplete="off">
