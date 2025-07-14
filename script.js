@@ -43,7 +43,10 @@ function renderCardLogo() {
 }
 renderCardLogo();
 
-// Validasi token ke backend proxy
+// Ganti endpoint ke Google Apps Script Web App langsung
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzdivb2oMhr8JgXUc5ylKajDboZuvpRdGiVwmk7UHXO4mrwvNjx7QsxEYWG5l_ypw5s/exec';
+
+// Validasi token ke endpoint Google Apps Script langsung
 async function cekInput() {
   const idVal = inputId.value.trim();
   const tokVal = inputToken.value.trim();
@@ -54,8 +57,7 @@ async function cekInput() {
   if (idVal && tokVal) {
     desc.textContent = 'Cek token ke server...';
     try {
-      // Ambil data dari backend proxy
-      const res = await fetch(`http://localhost:3000/api?token=${encodeURIComponent(tokVal)}`);
+      const res = await fetch(`${APPS_SCRIPT_URL}?token=${encodeURIComponent(tokVal)}`);
       const valid = await res.json();
       if (valid === true) {
         btnSpin.disabled = false;
@@ -137,10 +139,10 @@ function enablePilihKartu(arr) {
   });
 }
 
-// Kirim data ke backend proxy
+// Kirim data ke endpoint Google Apps Script langsung
 async function simpanLogSpin(userId, token, pilihan, hasil, gambarDipilih) {
   try {
-    await fetch('http://localhost:3000/api', {
+    await fetch(APPS_SCRIPT_URL, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({userId, token, pilihan, hasil, gambarDipilih})
