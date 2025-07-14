@@ -86,6 +86,9 @@ btnSpin.onclick = ()=>{
   btnSpin.classList.remove('active');
   inputId.disabled = true;
   inputToken.disabled = true;
+  // Lepas event handler input agar cekInput tidak bisa jalan lagi
+  inputId.oninput = null;
+  inputToken.oninput = null;
   desc.textContent = 'Mengacak kartu...';
   msg.textContent = '';
   shuffleAnim();
@@ -119,6 +122,7 @@ function shuffleAnim() {
   },60);
 }
 function enablePilihKartu(arr) {
+  // Set status ulang agar tidak tertimpa
   desc.textContent = 'Pilih salah satu kartu!';
   cards.forEach((card,idx)=>{
     card.onclick = ()=>{
