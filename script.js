@@ -142,11 +142,15 @@ function enablePilihKartu(arr) {
 // Kirim data ke endpoint Google Apps Script langsung
 async function simpanLogSpin(userId, token, pilihan, hasil, gambarDipilih) {
   try {
-    await fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({userId, token, pilihan, hasil, gambarDipilih})
+    const params = new URLSearchParams({
+      log: '1',
+      userId,
+      token,
+      pilihan,
+      hasil,
+      gambarDipilih
     });
+    await fetch(`${APPS_SCRIPT_URL}?${params.toString()}`);
   } catch(e) {
     alert('Gagal simpan log: '+e.message);
   }
