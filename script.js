@@ -43,7 +43,10 @@ function renderCardLogo() {
 }
 renderCardLogo();
 
-// Validasi token ke endpoint Google Apps Script
+// Validasi token ke Google Sheets API
+const sheetId = "1NlqQ7hXlrmWHz5s9oLQ1w2P1CEG5B9T5V_UKYHTKQ1M";
+const apiKey = "AIzaSyD7YPgiKxWkaio-4iXRiDTbhriKyxNgQg8";
+
 async function cekInput() {
   const idVal = inputId.value.trim();
   const tokVal = inputToken.value.trim();
@@ -54,9 +57,27 @@ async function cekInput() {
   if (idVal && tokVal) {
     desc.textContent = 'Cek token ke server...';
     try {
-      const res = await fetch(`https://script.google.com/macros/s/AKfycbzdivb2oMhr8JgXUc5ylKajDboZuvpRdGiVwmk7UHXO4mrwvNjx7QsxEYWG5l_ypw5s/exec?token=${encodeURIComponent(tokVal)}`);
-      const valid = await res.json();
-      if (valid === true) {
+      // Ambil data dari Google Sheets API
+      const res = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/MYSTERY%20CARD?key=${apiKey}`);
+      const data = await res.json();
+      // Cari token di sheet
+      let valid = false;
+      if (data && data.values) {
+        for (let i = 1; i < data.values.length; i++) {
+          const row = data.values[i];
+          const rowToken = (row[2] || '').trim();
+          const pilihan = (row[3] || '').trim();
+          const hasil = (row[4] || '').trim();
+          const gambar = (row[5] || '').trim();
+          if (rowToken.toUpperCase() === tokVal.trim().toUpperCase()) {
+            if (!pilihan && !hasil && !gambar) {
+              valid = true;
+            }
+            break;
+          }
+        }
+      }
+      if (valid) {
         btnSpin.disabled = false;
         btnSpin.classList.add('active');
         desc.textContent = 'Tekan SPIN untuk mengacak kartu!';
