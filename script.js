@@ -43,10 +43,7 @@ function renderCardLogo() {
 }
 renderCardLogo();
 
-// Validasi token ke Google Sheets API
-const sheetId = "1NlqQ7hXlrmWHz5s9oLQ1w2P1CEG5B9T5V_UKYHTKQ1M";
-const apiKey = "AIzaSyD7YPgiKxWkaio-4iXRiDTbhriKyxNgQg8";
-
+// Validasi token ke backend lokal
 async function cekInput() {
   const idVal = inputId.value.trim();
   const tokVal = inputToken.value.trim();
@@ -57,14 +54,14 @@ async function cekInput() {
   if (idVal && tokVal) {
     desc.textContent = 'Cek token ke server...';
     try {
-      // Ambil data dari Google Sheets API
-      const res = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/MYSTERY%20CARD?key=${apiKey}`);
+      // Ambil data dari backend lokal
+      const res = await fetch('http://localhost:3000/sheet');
       const data = await res.json();
       // Cari token di sheet
       let valid = false;
-      if (data && data.values) {
-        for (let i = 1; i < data.values.length; i++) {
-          const row = data.values[i];
+      if (data) {
+        for (let i = 1; i < data.length; i++) {
+          const row = data[i];
           const rowToken = (row[2] || '').trim();
           const pilihan = (row[3] || '').trim();
           const hasil = (row[4] || '').trim();
@@ -157,10 +154,10 @@ function enablePilihKartu(arr) {
   });
 }
 
-// Kirim data ke endpoint Google Apps Script
+// Kirim data ke backend lokal
 async function simpanLogSpin(userId, token, pilihan, hasil, gambarDipilih) {
   try {
-    await fetch('https://script.google.com/macros/s/AKfycbzdivb2oMhr8JgXUc5ylKajDboZuvpRdGiVwmk7UHXO4mrwvNjx7QsxEYWG5l_ypw5s/exec', {
+    await fetch('http://localhost:3000/sheet', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({userId, token, pilihan, hasil, gambarDipilih})
