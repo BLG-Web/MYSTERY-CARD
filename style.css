@@ -94,12 +94,21 @@ h2 {
   z-index: 1;
   justify-items: center;
   justify-content: center;
-  width: 100%;
-  max-width: 480px;
+  width: 100% !important;
+  max-width: 480px !important;
   margin-left: auto;
   margin-right: auto;
   overflow-x: hidden !important;
-  box-sizing: border-box;
+  overflow-y: visible !important;
+  box-sizing: border-box !important;
+  position: relative;
+}
+
+/* Remove problematic pseudo-elements from card-grid */
+.card-grid::before,
+.card-grid::after {
+  display: none !important;
+  content: none !important;
 }
 .card-outer {
   perspective: 1200px;
@@ -774,14 +783,14 @@ body::before {
 
 /* ===== ULTRA EPIC ADDITIONS ===== */
 
-/* Cyberpunk Grid Background */
+/* Cyberpunk Grid Background - FIXED */
 .card-grid::before {
   content: '';
   position: absolute;
-  top: -50px;
-  left: -50px;
-  right: -50px;
-  bottom: -50px;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
   background: 
     linear-gradient(90deg, rgba(56, 182, 255, 0.1) 1px, transparent 1px),
     linear-gradient(rgba(56, 182, 255, 0.1) 1px, transparent 1px);
@@ -789,25 +798,28 @@ body::before {
   opacity: 0.3;
   animation: gridPulse 3s ease-in-out infinite;
   pointer-events: none;
-  z-index: 0;
+  z-index: -1;
+  overflow: hidden !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 @keyframes gridPulse {
   0% { 
     opacity: 0.1; 
-    transform: scale(1) rotate(0deg);
+    transform: scale(0.98);
   }
   50% { 
     opacity: 0.3; 
-    transform: scale(1.02) rotate(1deg);
+    transform: scale(1);
   }
   100% { 
     opacity: 0.1; 
-    transform: scale(1) rotate(0deg);
+    transform: scale(0.98);
   }
 }
 
-/* Futuristic Scan Lines */
+/* Futuristic Scan Lines - FIXED */
 .card-grid::after {
   content: '';
   position: absolute;
@@ -823,12 +835,15 @@ body::before {
   );
   animation: scanLine 4s linear infinite;
   pointer-events: none;
-  z-index: 1;
+  z-index: -1;
+  overflow: hidden !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 @keyframes scanLine {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% { transform: translateX(-50px); }
+  100% { transform: translateX(50px); }
 }
 
 /* Ultra Card Glow Ring */
@@ -875,37 +890,39 @@ body::before {
   animation: glowRing 0.5s linear infinite;
 }
 
-/* Energy Orbs floating around cards */
+/* Energy Orbs floating around cards - FIXED */
 .card-outer::before {
   content: '';
   position: absolute;
-  top: -20px;
-  left: -20px;
-  width: 10px;
-  height: 10px;
-  background: radial-gradient(circle, rgba(255, 220, 0, 0.8) 0%, transparent 70%);
+  top: -10px;
+  left: -10px;
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle, rgba(255, 220, 0, 0.6) 0%, transparent 70%);
   border-radius: 50%;
   opacity: 0;
-  animation: floatingOrb 6s ease-in-out infinite;
+  animation: floatingOrbFixed 6s ease-in-out infinite;
   z-index: 2;
+  overflow: hidden !important;
+  pointer-events: none;
 }
 
-@keyframes floatingOrb {
+@keyframes floatingOrbFixed {
   0% { 
     transform: translate(0, 0) scale(0.5);
     opacity: 0;
   }
   25% { 
-    transform: translate(160px, -30px) scale(1);
-    opacity: 0.8;
+    transform: translate(50px, -15px) scale(0.8);
+    opacity: 0.6;
   }
   50% { 
-    transform: translate(160px, 210px) scale(1.2);
-    opacity: 1;
+    transform: translate(50px, 80px) scale(1);
+    opacity: 0.8;
   }
   75% { 
-    transform: translate(-30px, 210px) scale(1);
-    opacity: 0.8;
+    transform: translate(-15px, 80px) scale(0.8);
+    opacity: 0.6;
   }
   100% { 
     transform: translate(0, 0) scale(0.5);
@@ -914,7 +931,7 @@ body::before {
 }
 
 .card-shuffle .card-outer::before {
-  animation: floatingOrb 1s ease-in-out infinite;
+  animation: floatingOrbFixed 1s ease-in-out infinite;
 }
 
 /* Plasma Background Effect */
@@ -1366,7 +1383,7 @@ p, div, span {
 /* Animation elements fix */
 @keyframes matrixRain {
   0% { 
-    transform: translateY(-100vh) rotate(0deg); 
+    transform: translateY(-50vh) rotate(0deg); 
     opacity: 0.1;
     max-width: 100vw !important;
   }
@@ -1376,7 +1393,7 @@ p, div, span {
     max-width: 100vw !important;
   }
   100% { 
-    transform: translateY(100vh) rotate(360deg); 
+    transform: translateY(50vh) rotate(360deg); 
     opacity: 0.1;
     max-width: 100vw !important;
   }
@@ -1384,12 +1401,12 @@ p, div, span {
 
 @keyframes scanLine {
   0% { 
-    transform: translateX(-100%); 
-    max-width: 100vw !important;
+    transform: translateX(-20px); 
+    max-width: 100% !important;
   }
   100% { 
-    transform: translateX(100%); 
-    max-width: 100vw !important;
+    transform: translateX(20px); 
+    max-width: 100% !important;
   }
 }
 
@@ -1415,3 +1432,128 @@ p, div, span {
 
 /* Add this class to body via JavaScript if needed */
 /* ===== END SUPER ULTIMATE SCROLLBAR FIX ===== */
+
+/* ===== NUCLEAR OPTION - ABSOLUTE OVERFLOW PREVENTION ===== */
+/* This will completely eliminate any horizontal scrolling */
+
+* {
+  contain: layout style paint !important;
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+  width: 100vw !important;
+  position: relative !important;
+}
+
+/* Disable all pseudo-elements that might cause overflow */
+*::before,
+*::after {
+  max-width: 100% !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  contain: layout style paint !important;
+}
+
+/* Specific grid fixes */
+.card-grid {
+  overflow: hidden !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  contain: layout style paint !important;
+  isolation: isolate !important;
+  position: relative !important;
+}
+
+.card-grid::before,
+.card-grid::after {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  content: none !important;
+}
+
+/* Card container fixes */
+.card-outer {
+  overflow: hidden !important;
+  max-width: 100% !important;
+  contain: layout style paint !important;
+  position: relative !important;
+}
+
+.card-outer::before {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  content: none !important;
+}
+
+/* Card fixes */
+.card {
+  overflow: hidden !important;
+  max-width: 100% !important;
+  contain: layout style paint !important;
+  position: relative !important;
+}
+
+.card::before,
+.card::after {
+  max-width: 100% !important;
+  overflow: hidden !important;
+  contain: layout style paint !important;
+}
+
+/* Animation containment */
+.card-shuffle,
+.card-flip-anim,
+.card-reveal,
+.card-glow {
+  contain: layout style paint !important;
+  overflow: hidden !important;
+  max-width: 100% !important;
+}
+
+/* Background containment */
+body::before,
+body::after {
+  contain: layout style paint !important;
+  overflow: hidden !important;
+  max-width: 100vw !important;
+  position: fixed !important;
+}
+
+/* Disable problematic animations */
+@keyframes matrixRain {
+  0% { 
+    transform: translateY(-50vh) rotate(0deg); 
+    opacity: 0.1;
+    max-width: 100vw !important;
+  }
+  50% { 
+    transform: translateY(0) rotate(180deg); 
+    opacity: 0.3;
+    max-width: 100vw !important;
+  }
+  100% { 
+    transform: translateY(50vh) rotate(360deg); 
+    opacity: 0.1;
+    max-width: 100vw !important;
+  }
+}
+
+@keyframes scanLine {
+  0% { 
+    transform: translateX(-20px); 
+    max-width: 100% !important;
+  }
+  100% { 
+    transform: translateX(20px); 
+    max-width: 100% !important;
+  }
+}
+
+/* ===== END NUCLEAR OPTION ===== */
