@@ -6,7 +6,14 @@ app.use(cors());
 app.use(express.json());
 
 // Handler untuk preflight request dari private network (Chrome >= 130)
-app.options('/*', (req, res) => {
+app.options('/', (req, res) => {
+  res.set('Access-Control-Allow-Origin', '*');
+  res.set('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+  res.set('Access-Control-Allow-Headers', 'Content-Type');
+  res.set('Access-Control-Allow-Private-Network', 'true');
+  res.status(204).send('');
+});
+app.options('/api', (req, res) => {
   res.set('Access-Control-Allow-Origin', '*');
   res.set('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
   res.set('Access-Control-Allow-Headers', 'Content-Type');
