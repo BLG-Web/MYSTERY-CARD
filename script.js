@@ -24,6 +24,12 @@ let hasilArr = [];
 let currentUid, currentTok;
 let selectedIdx = null;
 
+// Fungsi helper untuk mengatur status agar tidak tertimpa
+function setStatus(text) {
+  desc.textContent = text;
+  console.log('Status diset ke:', text);
+}
+
 function renderCardLogo() {
   cardGrid.innerHTML = '';
   cards = [];
@@ -48,15 +54,20 @@ const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzdivb2oMhr8JgX
 
 // Validasi token ke endpoint Google Apps Script langsung
 async function cekInput() {
-  if (sudahSpin) return; // Jangan cek token lagi setelah spin
+  if (sudahSpin) {
+    console.log('Sudah spin, tidak perlu cek input lagi');
+    return; // Jangan cek token lagi setelah spin
+  }
   const idVal = inputId.value.trim();
   const tokVal = inputToken.value.trim();
   btnSpin.disabled = true;
   btnSpin.classList.remove('active');
   desc.textContent = 'Isi ID dan Token, lalu tekan SPIN!';
   msg.textContent = '';
+  
   if (idVal && tokVal) {
     desc.textContent = 'Cek token ke server...';
+    console.log('Memulai validasi token...');
     try {
       const res = await fetch(`${APPS_SCRIPT_URL}?token=${encodeURIComponent(tokVal)}`);
       const valid = await res.json();
@@ -64,13 +75,16 @@ async function cekInput() {
         btnSpin.disabled = false;
         btnSpin.classList.add('active');
         desc.textContent = 'Tekan SPIN untuk mengacak kartu!';
+        console.log('Token valid, tombol SPIN aktif');
       } else {
         desc.textContent = 'Token tidak valid atau sudah digunakan!';
         msg.textContent = 'Token tidak valid atau sudah digunakan!';
+        console.log('Token tidak valid');
       }
     } catch(e) {
       desc.textContent = 'Gagal koneksi ke server.';
       msg.textContent = 'Gagal koneksi ke server.';
+      console.error('Error koneksi:', e);
     }
   }
 }
@@ -89,7 +103,7 @@ btnSpin.onclick = ()=>{
   // Lepas event handler input agar cekInput tidak bisa jalan lagi
   inputId.oninput = null;
   inputToken.oninput = null;
-  desc.textContent = 'Mengacak kartu...';
+  setStatus('Mengacak kartu...');
   msg.textContent = '';
   shuffleAnim();
 };
@@ -99,7 +113,8 @@ function shuffleAnim() {
   let maxSpin = Math.round(duration * 1000 / 60);
   let spin=0;
   // Pastikan status tetap 'Mengacak kartu...' selama animasi
-  desc.textContent = 'Mengacak kartu...';
+  setStatus('Mengacak kartu...');
+  
   const interval = setInterval(()=>{
     // Acak karakter untuk animasi visual
     const arr = hadiahList.slice().sort(()=>Math.random()-0.5);
@@ -110,6 +125,7 @@ function shuffleAnim() {
     spin++;
     if (spin>maxSpin){
       clearInterval(interval);
+      console.log('Animasi selesai, mempersiapkan kartu...');
       cards.forEach((c, i)=>{
         c.classList.remove('card-anim');
         c.querySelector('.face').innerHTML = `<img src="${LOGO_URL}">`;
@@ -117,13 +133,19 @@ function shuffleAnim() {
       });
       hasilArr = hadiahList.slice().sort(()=>Math.random()-0.5).slice(0,8);
       // Setelah animasi selesai, baru ubah status
+      console.log('Memanggil enablePilihKartu...');
       enablePilihKartu(hasilArr);
     }
   },60);
 }
 function enablePilihKartu(arr) {
-  // Set status ulang agar tidak tertimpa
-  desc.textContent = 'Pilih salah satu kartu!';
+  // Pastikan status ter-update dengan benar
+  console.log('enablePilihKartu dipanggil');
+  // Gunakan timeout untuk memastikan status ter-update setelah animasi selesai
+  setTimeout(() => {
+    setStatus('Pilih salah satu kartu!');
+  }, 200);
+  
   cards.forEach((card,idx)=>{
     card.onclick = ()=>{
       if (selectedIdx !== null) return;
@@ -139,7 +161,7 @@ function enablePilihKartu(arr) {
       msg.innerHTML = h.hadiah.includes('MENANG')
         ? `🎉 <span style="color:#ffdc00">${h.hadiah}</span>`
         : `<span style="color:#ff3a3a">${h.hadiah}</span>`;
-      desc.textContent = 'Klik CLAIM SEKARANG untuk klaim hadiah.';
+      setStatus('Klik CLAIM SEKARANG untuk klaim hadiah.');
       btnClaim.style.display = 'block';
       simpanLogSpin(currentUid, currentTok, `Kartu ${String.fromCharCode(65+idx)}`, h.hadiah, h.label);
     };
