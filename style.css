@@ -15,11 +15,30 @@
 /* Hapus scrollbar khusus untuk webkit browsers */
 *::-webkit-scrollbar {
   width: 0px;
+  height: 0px;
+  background: transparent;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
   background: transparent;
 }
 
 *::-webkit-scrollbar-horizontal {
   display: none;
+}
+
+*::-webkit-scrollbar-vertical {
+  display: none;
+}
+
+/* Hapus scrollbar untuk semua browser */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
 }
 
 body {
@@ -232,14 +251,17 @@ h2 {
   transition: all 0.3s ease;
   position: relative;
   z-index: 2;
+  overflow: hidden;
 }
 .card:hover .face img,
 .card:hover .back img {
   filter: drop-shadow(0 6px 12px rgba(56, 182, 255, 0.6));
   transform: scale(1.05);
+  overflow: hidden;
 }
 .card .back img {
   margin-bottom: 8px;
+  overflow: hidden;
 }
 .card .face, .card .back {
   position: absolute;
@@ -254,12 +276,14 @@ h2 {
   border-radius: inherit;
   font-size: 32px;
   transition: background 0.18s;
+  overflow: hidden;
 }
 .card .face {
   background: linear-gradient(145deg, #23272f 60%, #38b6ff33 100%);
   box-shadow: 
     0 4px 16px #38b6ff33,
     inset 0 1px 0 rgba(255,255,255,0.1);
+  overflow: hidden;
 }
 .card .back {
   background: linear-gradient(145deg, #f6fafd 90%, #38b6ff 100%);
@@ -273,6 +297,7 @@ h2 {
   box-shadow: 
     0 4px 24px #38b6ff55,
     inset 0 1px 0 rgba(255,255,255,0.3);
+  overflow: hidden;
 }
 .card-anim {
   animation: cardSpin 0.5s ease-in-out infinite;
