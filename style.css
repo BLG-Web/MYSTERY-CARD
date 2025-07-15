@@ -41,6 +41,25 @@
   -ms-overflow-style: none; /* IE and Edge */
 }
 
+/* Hapus developer tools highlight */
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hapus inspect element highlight */
+*::-webkit-inspect-highlight {
+  display: none !important;
+}
+
+/* Hapus semua outline dan border inspection */
+*:focus {
+  outline: none !important;
+  border: none !important;
+}
+
 body {
   background: radial-gradient(circle at 50% 55%, #38b6ff 0%, #0a2342 40%, #010a1a 80%),
     repeating-conic-gradient(from 0deg, #38b6ff33 0deg 10deg, transparent 10deg 20deg),
@@ -169,6 +188,25 @@ h2 {
   max-width: 700px;
   padding: 0;
   overflow: hidden;
+  outline: none;
+  border: none;
+}
+
+/* Hapus highlight dan outline dari cardGrid */
+#cardGrid {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+#cardGrid:focus {
+  outline: none !important;
+  border: none !important;
+}
+
+#cardGrid::before,
+#cardGrid::after {
+  display: none !important;
 }
 .card-outer {
   perspective: 1200px;
@@ -1068,4 +1106,48 @@ h2 {
     max-width: 240px;
     font-size: 0.9rem;
   }
+}
+
+/* Hapus semua visual inspection dari developer tools */
+.card-grid,
+#cardGrid,
+.card-outer,
+.card {
+  pointer-events: auto;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  outline: none !important;
+  border: none !important;
+}
+
+/* Hapus highlight inspection */
+*::selection {
+  background: transparent;
+}
+
+*::-moz-selection {
+  background: transparent;
+}
+
+/* Disable right click context menu */
+* {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Re-enable text selection for inputs */
+input,
+textarea {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
 }
