@@ -174,27 +174,28 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       grid-template-rows: repeat(2, 1fr);
-      gap: clamp(16px, 4vw, 32px);
+      gap: 32px; /* jarak antar kartu selalu tetap */
       justify-content: center;
       align-items: center;
-      margin-bottom: clamp(10px, 2vw, 32px);
-      margin-top: clamp(8px, 2vw, 24px);
+      margin-bottom: 24px;
+      margin-top: 16px;
       z-index: 1;
       width: 100%;
-      max-width: 600px;
+      max-width: calc(4 * 180px + 3 * 32px); /* 4 kartu, 3 gap */
     }
     .card-outer {
       perspective: 1400px;
-      width: clamp(60px, 15vw, 200px);
-      height: clamp(90px, 22vw, 300px);
+      width: 180px;
+      height: 270px;
       position: relative;
-      transition: transform 0.18s cubic-bezier(.4,2,.6,1);
+      transition: box-shadow 0.18s cubic-bezier(.4,2,.6,1);
     }
     
-    .card-outer:hover { 
-      transform: scale(1.07) translateY(-8px); 
+    .card-outer:hover {
+      /* Hapus efek scale agar tidak keluar grid */
+      box-shadow: 0 0 32px 8px #38b6ffcc, 0 8px 32px #3a506bcc;
+      z-index: 2;
     }
-    
     .card {
       width: 100%;
       height: 100%;
@@ -213,11 +214,12 @@
       border: 4px solid #fff;
       box-shadow: 0 0 60px #c7e0f7cc, 0 4px 24px #3a506bcc;
       z-index: 2;
-      transform: scale(1.13);
+      /* Hapus efek scale agar tidak keluar grid */
+      transform: none;
     }
     
     .card.flipped {
-      transform: rotateY(180deg) scale(1.13);
+      transform: rotateY(180deg);
       cursor: default;
       pointer-events: none;
     }
@@ -731,6 +733,17 @@
       .card-outer {
         width: clamp(80px, 18vw, 140px);
         height: clamp(120px, 27vw, 210px);
+      }
+    }
+    
+    @media (max-width: 900px) {
+      .card-grid {
+        gap: 20px;
+        max-width: calc(4 * 120px + 3 * 20px);
+      }
+      .card-outer {
+        width: 120px;
+        height: 180px;
       }
     }
     
