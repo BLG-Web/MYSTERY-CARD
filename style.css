@@ -41,25 +41,6 @@
   -ms-overflow-style: none; /* IE and Edge */
 }
 
-/* Hapus developer tools highlight */
-* {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-/* Hapus inspect element highlight */
-*::-webkit-inspect-highlight {
-  display: none !important;
-}
-
-/* Hapus semua outline dan border inspection */
-*:focus {
-  outline: none !important;
-  border: none !important;
-}
-
 body {
   background: radial-gradient(circle at 50% 55%, #38b6ff 0%, #0a2342 40%, #010a1a 80%),
     repeating-conic-gradient(from 0deg, #38b6ff33 0deg 10deg, transparent 10deg 20deg),
