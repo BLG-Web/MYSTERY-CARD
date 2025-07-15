@@ -75,39 +75,77 @@
       box-sizing: border-box;
       z-index: 1;
       overflow-x: hidden;
+      animation: fadeIn 1s ease-in-out;
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: repeat(2, 1fr);
-      gap: 32px;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      gap: 24px;
       margin-bottom: 32px;
       margin-top: 18px;
       z-index: 1;
       justify-items: center;
       width: 100%;
-      max-width: 480px;
+      max-width: 600px;
       margin-left: auto;
       margin-right: auto;
+      padding: 20px;
     }
     .card-outer {
       perspective: 1200px;
-      width: 120px;
-      height: 180px;
+      width: 140px;
+      height: 200px;
       position: relative;
-      transition: transform 0.18s cubic-bezier(.4,2,.6,1);
-      background: #1a1a1a;
-      border: 2px solid #ff0033;
-      border-radius: 16px;
-      box-shadow: 0 0 16px #ff0033aa, 0 2px 12px #000;
+      transition: all 0.3s cubic-bezier(.4,2,.6,1);
+      background: linear-gradient(145deg, #1a1a1a, #2d2d2d);
+      border: 3px solid #ff0033;
+      border-radius: 20px;
+      box-shadow: 
+        0 0 20px #ff0033aa, 
+        0 8px 32px rgba(0,0,0,0.6),
+        inset 0 1px 0 rgba(255,255,255,0.1);
       display: flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
+      overflow: hidden;
+    }
+    .card-outer:hover {
+      transform: scale(1.05) translateY(-8px) rotateY(5deg);
+      box-shadow: 
+        0 0 30px #ff0033cc, 
+        0 12px 40px rgba(0,0,0,0.8),
+        inset 0 1px 0 rgba(255,255,255,0.2);
+      border-color: #ff6666;
+    }
+    .card-outer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+    .card-outer:hover::before {
+      left: 100%;
     }
     .card-outer img {
-      width: 80px;
-      height: 120px;
+      width: 90px;
+      height: 135px;
       object-fit: contain;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5)) drop-shadow(0 0 10px #ff0033);
+      transition: all 0.3s ease;
+    }
+    .card-outer:hover img {
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.7)) drop-shadow(0 0 15px #ff0033);
+      transform: scale(1.05);
     }
     .form-area {
       display: flex;
@@ -115,6 +153,11 @@
       margin-bottom: 18px;
       flex-wrap: wrap;
       justify-content: center;
+      animation: slideUp 0.8s ease-out 0.5s both;
+    }
+    @keyframes slideUp {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
     .form-area input {
       padding: 8px 12px;
@@ -139,10 +182,24 @@
       cursor: pointer;
       transition: box-shadow 0.2s, background 0.2s;
       margin-bottom: 12px;
+      position: relative;
+      overflow: hidden;
     }
-    .glow-btn:hover {
-      box-shadow: 0 0 32px #ff0033, 0 2px 24px #000;
-      background: linear-gradient(90deg, #ff0033 0%, #ff1a1a 100%);
+    .glow-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: left 0.5s;
+    }
+    .glow-btn:hover::before {
+      left: 100%;
+    }
+    .glow-btn:active {
+      transform: scale(0.98);
     }
     .info {
       color: #fff;
@@ -150,6 +207,7 @@
       text-align: center;
       margin-top: 8px;
       text-shadow: 0 0 8px #ff0033;
+      animation: slideUp 0.8s ease-out 0.7s both;
     }
     @media (max-width: 600px) {
       .main-area {
@@ -157,13 +215,19 @@
       }
       .card-grid {
         grid-template-columns: repeat(2, 1fr);
-        max-width: 260px;
-        gap: 18px;
+        grid-template-rows: repeat(4, 1fr);
+        max-width: 350px;
+        gap: 15px;
+        padding: 10px;
       }
       .card-outer {
-        width: 80px;
-        height: 120px;
-        border-radius: 10px;
+        width: 100px;
+        height: 150px;
+        border-radius: 15px;
+      }
+      .card-outer img {
+        width: 70px;
+        height: 105px;
       }
       .form-area input {
         font-size: 0.9rem;
@@ -207,7 +271,8 @@
     </div>
   </nav>
   <div class="main-area">
-    <h2>MYSTERY CARD SPIN</h2>
+    <h2 id="mainTitle">MYSTERY CARD SPIN</h2>
+    <div class="subtitle">Pilih kartu dan menangkan hadiah menarik!</div>
     <div class="card-grid">
       <div class="card-outer"><img src="assets/card.png" alt="Card"></div>
       <div class="card-outer"><img src="assets/card.png" alt="Card"></div>
@@ -219,10 +284,16 @@
       <div class="card-outer"><img src="assets/card.png" alt="Card"></div>
     </div>
     <form class="form-area">
-      <input type="text" placeholder="Masukkan ID">
-      <input type="text" placeholder="Masukkan Token">
+      <input type="text" placeholder="Masukkan ID" required>
+      <input type="text" placeholder="Masukkan Token" required>
     </form>
-    <button class="glow-btn">SPIN</button>
+    <button class="glow-btn" id="spinButton">
+      <span class="btn-text">SPIN</span>
+      <span class="btn-loading" style="display: none;">
+        <span class="loading-spinner"></span>
+        SPINNING...
+      </span>
+    </button>
     <div class="info">Isi ID dan Token, lalu tekan SPIN untuk mengacak kartu!</div>
   </div>
   <script>
