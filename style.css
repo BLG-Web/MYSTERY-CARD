@@ -157,19 +157,24 @@ h2 {
   overflow: visible !important;
   min-height: unset;
 }
+
 .card-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  gap: 4px; /* grid makin rapat */
+  gap: 0px; /* grid lebih rapat, bisa 2px jika terlalu rapat */
   margin: 0;
   z-index: 1;
   justify-items: center;
   align-items: center;
   width: 100%;
-  max-width: 520px;
-  padding: 0;
+  max-width: 440px; /* lebih kecil agar grid rapat */
+  padding: 16px 0;
   overflow: visible !important;
+  box-sizing: content-box;
+  /* Ruang ekstra agar kartu membesar tidak terpotong */
+  margin-top: -16px;
+  margin-bottom: -16px;
 }
 /* Hapus highlight dan outline dari cardGrid */
 #cardGrid {
@@ -189,14 +194,15 @@ h2 {
 }
 .card-outer {
   perspective: 1200px;
-  width: clamp(70px, 11vw, 110px); /* lebih kecil agar muat grid */
-  height: clamp(105px, 16vw, 160px);
+  width: clamp(60px, 10vw, 100px); /* lebih kecil agar muat grid */
+  height: clamp(90px, 15vw, 140px);
   position: relative;
   transition: all 0.3s cubic-bezier(.4,2,.6,1);
   animation: cardEntry 0.8s ease-out;
   overflow: visible !important;
   margin: 0 !important;
   padding: 0 !important;
+  z-index: 2;
 }
 .card-outer:hover, .card.selected, .card.flipped {
   z-index: 10 !important;
@@ -204,7 +210,7 @@ h2 {
 .card.selected {
   border: 3px solid #fff;
   box-shadow: 0 0 40px rgba(56, 182, 255, 0.8), 0 8px 32px rgba(58, 80, 107, 0.8), inset 0 2px 0 rgba(255, 255, 255, 0.2);
-  z-index: 2;
+  z-index: 20;
   transform: scale(1.13) translateY(-4px);
 }
 .card.flipped {
