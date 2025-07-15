@@ -209,6 +209,48 @@
       text-shadow: 0 0 8px #ff0033;
       animation: slideUp 0.8s ease-out 0.7s both;
     }
+    .subtitle {
+      font-size: 1.2rem;
+      color: #38b6ff;
+      margin-bottom: 20px;
+      text-align: center;
+      font-weight: 600;
+      text-shadow: 0 0 10px #38b6ff;
+      animation: subtitleGlow 2s ease-in-out infinite alternate;
+    }
+    
+    @keyframes subtitleGlow {
+      0% { opacity: 0.7; }
+      100% { opacity: 1; }
+    }
+    
+    .btn-loading {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .loading-spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top: 2px solid #fff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .glow-btn.loading .btn-text {
+      display: none;
+    }
+    
+    .glow-btn.loading .btn-loading {
+      display: flex;
+    }
     @media (max-width: 600px) {
       .main-area {
         padding: 8px 0 16px 0;
@@ -228,6 +270,10 @@
       .card-outer img {
         width: 70px;
         height: 105px;
+      }
+      .subtitle {
+        font-size: 1rem;
+        margin-bottom: 15px;
       }
       .form-area input {
         font-size: 0.9rem;
