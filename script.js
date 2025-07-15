@@ -91,178 +91,33 @@ async function cekInput() {
 inputId.oninput = cekInput;
 inputToken.oninput = cekInput;
 
-btnSpin.onclick = ()=>{
+btnSpin.onclick = () => {
   if (sudahSpin) return;
   sudahSpin = true;
   currentUid = inputId.value.trim();
   currentTok = inputToken.value.trim();
   btnSpin.disabled = true;
   btnSpin.classList.remove('active');
+  btnSpin.classList.add('spinning');
   inputId.disabled = true;
   inputToken.disabled = true;
-  // Lepas event handler input agar cekInput tidak bisa jalan lagi
   inputId.oninput = null;
   inputToken.oninput = null;
-  setStatus('Mengacak kartu...');
   msg.textContent = '';
-  shuffleAnim();
+  
+  setTimeout(() => {
+    btnSpin.classList.remove('spinning');
+    enhancedShuffleAnimation();
+  }, 1000);
 };
 
 function shuffleAnim() {
-  let duration = 4.0; // detik - lebih lama untuk animasi yang lebih smooth
-  let totalFrames = Math.round(duration * 1000 / 50); // 50ms per frame untuk smooth animation
-  let currentFrame = 0;
-  
-  // Pastikan status tetap 'Mengacak kartu...' selama animasi
-  setStatus('Mengacak kartu...');
-  
-  // Fase 1: Kartu bergerak dan bertukar posisi (2 detik pertama)
-  const shuffleInterval = setInterval(() => {
-    if (currentFrame < totalFrames * 0.5) { // 50% waktu untuk shuffle
-      // Animasi kartu bertukar posisi
-      cards.forEach((card, i) => {
-        card.classList.add('card-shuffle');
-        
-        // Random movement untuk setiap kartu
-        const randomX = (Math.random() - 0.5) * 100;
-        const randomY = (Math.random() - 0.5) * 50;
-        const randomRotate = (Math.random() - 0.5) * 360;
-        const randomScale = 0.8 + Math.random() * 0.4;
-        
-        card.style.transform = `
-          translate(${randomX}px, ${randomY}px) 
-          rotate(${randomRotate}deg) 
-          scale(${randomScale})
-        `;
-        card.style.zIndex = Math.floor(Math.random() * 10);
-      });
-    } else {
-      // Fase 2: Kartu kembali ke posisi normal dan mulai flip
-      clearInterval(shuffleInterval);
-      
-      // Reset posisi kartu
-      cards.forEach((card, i) => {
-        card.classList.remove('card-shuffle');
-        card.style.transform = '';
-        card.style.zIndex = '';
-      });
-      
-      // Mulai fase flip animation
-      startFlipAnimation();
-    }
-    currentFrame++;
-  }, 50);
-  
-  function startFlipAnimation() {
-    let flipFrame = 0;
-    const flipDuration = totalFrames * 0.5; // 50% waktu sisanya untuk flip
-    
-    const flipInterval = setInterval(() => {
-      // Acak gambar untuk setiap kartu dengan efek flip
-      const arr = hadiahList.slice().sort(() => Math.random() - 0.5);
-      
-      cards.forEach((card, i) => {
-        card.classList.add('card-flip-anim');
-        
-        // Efek flip 3D yang smooth
-        const flipAngle = (flipFrame * 10) % 360;
-        card.style.transform = `rotateY(${flipAngle}deg)`;
-        
-        // Ganti gambar pada titik tengah flip
-        if (flipAngle % 180 < 90) {
-          card.querySelector('.face').innerHTML = `
-            <img src="${arr[i % arr.length].img}" 
-                 style="filter: brightness(0.9) blur(0.3px) hue-rotate(${Math.random() * 360}deg);">
-          `;
-        } else {
-          card.querySelector('.face').innerHTML = `
-            <img src="${LOGO_URL}" 
-                 style="filter: brightness(1.1) contrast(1.2);">
-          `;
-        }
-        
-        // Efek glow random
-        if (Math.random() > 0.7) {
-          card.style.boxShadow = `
-            0 0 20px rgba(255, 215, 0, 0.6),
-            0 0 40px rgba(255, 215, 0, 0.4),
-            0 0 60px rgba(255, 215, 0, 0.2)
-          `;
-        } else {
-          card.style.boxShadow = '';
-        }
-      });
-      
-      flipFrame++;
-      
-      if (flipFrame >= flipDuration) {
-        clearInterval(flipInterval);
-        finishAnimation();
-      }
-    }, 50);
-  }
-  
-  function finishAnimation() {
-    console.log('Animasi selesai, mempersiapkan kartu...');
-    
-    // Reset semua kartu ke kondisi normal
-    cards.forEach((card, i) => {
-      card.classList.remove('card-flip-anim', 'card-shuffle');
-      card.style.transform = '';
-      card.style.zIndex = '';
-      card.style.boxShadow = '';
-      card.querySelector('.face').innerHTML = `<img src="${LOGO_URL}">`;
-      card.querySelector('.back').innerHTML = '';
-    });
-    
-    // Animasi final: kartu muncul satu per satu
-    cards.forEach((card, i) => {
-      setTimeout(() => {
-        card.classList.add('card-reveal');
-        card.style.transform = 'scale(1.05)';
-        setTimeout(() => {
-          card.style.transform = '';
-          card.classList.remove('card-reveal');
-        }, 200);
-      }, i * 100);
-    });
-    
-    // Generate hasil dan aktifkan pemilihan kartu
-    setTimeout(() => {
-      hasilArr = hadiahList.slice().sort(() => Math.random() - 0.5).slice(0, 8);
-      console.log('Memanggil enablePilihKartu...');
-      enablePilihKartu(hasilArr);
-    }, 800);
-  }
+  // Use enhanced version instead
+  enhancedShuffleAnimation();
 }
 function enablePilihKartu(arr) {
-  // Pastikan status ter-update dengan benar
-  console.log('enablePilihKartu dipanggil');
-  // Gunakan timeout untuk memastikan status ter-update setelah animasi selesai
-  setTimeout(() => {
-    setStatus('Pilih salah satu kartu!');
-  }, 200);
-  
-  cards.forEach((card,idx)=>{
-    card.onclick = ()=>{
-      if (selectedIdx !== null) return;
-      selectedIdx = idx;
-      const h = arr[idx];
-      card.querySelector('.back').innerHTML = `
-        <img src="${h.img}">
-        <div class="hadiah-title">${h.hadiah}</div>
-      `;
-      card.querySelector('.face').innerHTML = `<img src="${h.img}">`;
-      card.classList.add('flipped','selected');
-      cards.forEach(c=>c.onclick=null);
-      msg.innerHTML = h.hadiah.includes('MENANG')
-        ? `🎉 <span style="color:#ffdc00">${h.hadiah}</span>`
-        : `<span style="color:#ff3a3a">${h.hadiah}</span>`;
-      setStatus('Klik CLAIM SEKARANG untuk klaim hadiah.');
-      btnClaim.style.display = 'block';
-      simpanLogSpin(currentUid, currentTok, `Kartu ${String.fromCharCode(65+idx)}`, h.hadiah, h.label);
-    };
-  });
+  // Use enhanced version instead
+  enhancedEnablePilihKartu(arr);
 }
 
 // Kirim data ke endpoint Google Apps Script langsung
@@ -344,8 +199,265 @@ function enhanceSpinButton() {
   }
 }
 
-// Initialize professional effects
+// Enhanced professional effects
+function showLoadingOverlay() {
+  const overlay = document.getElementById('loadingOverlay');
+  if (overlay) {
+    overlay.classList.add('show');
+  }
+}
+
+function hideLoadingOverlay() {
+  const overlay = document.getElementById('loadingOverlay');
+  if (overlay) {
+    overlay.classList.remove('show');
+  }
+}
+
+function addCardHoverSounds() {
+  cards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      // Visual feedback for hover
+      card.style.transform = 'scale(1.05) translateY(-8px)';
+      card.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+    });
+    
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+      card.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+    });
+  });
+}
+
+function enhancedShuffleAnimation() {
+  showLoadingOverlay();
+  
+  // Enhanced shuffle with better timing
+  let duration = 4.5;
+  let totalFrames = Math.round(duration * 1000 / 60);
+  let currentFrame = 0;
+  
+  setStatus('Mengacak kartu...');
+  
+  const shuffleInterval = setInterval(() => {
+    if (currentFrame < totalFrames * 0.6) {
+      // Shuffle phase with more dynamic movement
+      cards.forEach((card, i) => {
+        card.classList.add('card-shuffle');
+        
+        const randomX = (Math.random() - 0.5) * 120;
+        const randomY = (Math.random() - 0.5) * 60;
+        const randomRotate = (Math.random() - 0.5) * 720;
+        const randomScale = 0.7 + Math.random() * 0.6;
+        
+        card.style.transform = `
+          translate(${randomX}px, ${randomY}px) 
+          rotate(${randomRotate}deg) 
+          scale(${randomScale})
+        `;
+        card.style.zIndex = Math.floor(Math.random() * 10);
+        
+        // Add random glow effects
+        if (Math.random() > 0.8) {
+          card.style.boxShadow = `
+            0 0 30px rgba(255, 0, 51, 0.8),
+            0 0 60px rgba(56, 182, 255, 0.6)
+          `;
+        }
+      });
+    } else {
+      clearInterval(shuffleInterval);
+      startEnhancedFlipAnimation();
+    }
+    currentFrame++;
+  }, 60);
+}
+
+function startEnhancedFlipAnimation() {
+  let flipFrame = 0;
+  const flipDuration = 60;
+  
+  const flipInterval = setInterval(() => {
+    const arr = hadiahList.slice().sort(() => Math.random() - 0.5);
+    
+    cards.forEach((card, i) => {
+      card.classList.remove('card-shuffle');
+      card.classList.add('card-flip-anim');
+      
+      const flipAngle = (flipFrame * 15) % 360;
+      card.style.transform = `rotateY(${flipAngle}deg)`;
+      
+      // Enhanced image switching with blur effect
+      if (flipAngle % 180 < 90) {
+        card.querySelector('.face').innerHTML = `
+          <img src="${arr[i % arr.length].img}" 
+               style="filter: brightness(0.8) blur(1px) hue-rotate(${Math.random() * 360}deg);">
+        `;
+      } else {
+        card.querySelector('.face').innerHTML = `
+          <img src="${LOGO_URL}" 
+               style="filter: brightness(1.2) contrast(1.3) drop-shadow(0 0 10px #ff0033);">
+        `;
+      }
+      
+      // Dynamic glow effects
+      const colors = ['#ff0033', '#38b6ff', '#ffdc00', '#ff7b00'];
+      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+      card.style.boxShadow = `
+        0 0 25px ${randomColor}66,
+        0 0 50px ${randomColor}33
+      `;
+    });
+    
+    flipFrame++;
+    
+    if (flipFrame >= flipDuration) {
+      clearInterval(flipInterval);
+      finishEnhancedAnimation();
+    }
+  }, 60);
+}
+
+function finishEnhancedAnimation() {
+  hideLoadingOverlay();
+  
+  // Reset all cards with staggered reveal
+  cards.forEach((card, i) => {
+    setTimeout(() => {
+      card.classList.remove('card-flip-anim', 'card-shuffle');
+      card.style.transform = '';
+      card.style.zIndex = '';
+      card.style.boxShadow = '';
+      card.querySelector('.face').innerHTML = `<img src="${LOGO_URL}">`;
+      card.querySelector('.back').innerHTML = '';
+      
+      // Add reveal animation
+      card.classList.add('card-reveal');
+      card.style.transform = 'scale(1.1)';
+      
+      setTimeout(() => {
+        card.style.transform = '';
+        card.classList.remove('card-reveal');
+      }, 300);
+    }, i * 150);
+  });
+  
+  // Generate results and enable selection
+  setTimeout(() => {
+    hasilArr = hadiahList.slice().sort(() => Math.random() - 0.5).slice(0, 8);
+    console.log('Hasil shuffle:', hasilArr);
+    enhancedEnablePilihKartu(hasilArr);
+  }, 1200);
+}
+
+function enhancedEnablePilihKartu(arr) {
+  setTimeout(() => {
+    setStatus('Pilih salah satu kartu untuk melihat hadiah!');
+    
+    // Add hover highlights
+    cards.forEach(card => {
+      card.classList.add('card-highlight');
+    });
+    
+    // Remove highlights after a few seconds
+    setTimeout(() => {
+      cards.forEach(card => {
+        card.classList.remove('card-highlight');
+      });
+    }, 3000);
+  }, 300);
+  
+  cards.forEach((card, idx) => {
+    card.onclick = () => {
+      if (selectedIdx !== null) return;
+      selectedIdx = idx;
+      
+      // Enhanced card selection
+      card.classList.add('card-selected');
+      const h = arr[idx];
+      
+      // Animate card flip
+      card.classList.add('flipping');
+      
+      setTimeout(() => {
+        card.querySelector('.back').innerHTML = `
+          <img src="${h.img}" style="filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));">
+          <div class="hadiah-title">${h.hadiah}</div>
+        `;
+        card.querySelector('.face').innerHTML = `<img src="${h.img}">`;
+        card.classList.add('flipped', 'selected');
+        card.classList.remove('flipping');
+        
+        // Add winning effect for non-ZONK results
+        if (!h.hadiah.includes('ZONK')) {
+          card.classList.add('winning');
+          card.parentElement.classList.add('win-celebration');
+        }
+      }, 400);
+      
+      cards.forEach(c => c.onclick = null);
+      
+      // Enhanced message display
+      const msgElement = document.getElementById('msg');
+      msgElement.classList.add('msg-fade-in');
+      msgElement.innerHTML = h.hadiah.includes('MENANG') || h.hadiah.includes('BONUS')
+        ? `🎉 <span style="color:#ffdc00; text-shadow: 0 0 10px #ffdc00;">${h.hadiah}</span>`
+        : `<span style="color:#ff3a3a; text-shadow: 0 0 10px #ff3a3a;">${h.hadiah}</span>`;
+      
+      setStatus('Selamat! Klik CLAIM SEKARANG untuk mengklaim hadiah.');
+      
+      // Show claim button with animation
+      const claimBtn = document.getElementById('btnClaim');
+      claimBtn.style.display = 'block';
+      claimBtn.classList.add('btn-bounce');
+      
+      setTimeout(() => {
+        claimBtn.classList.remove('btn-bounce');
+      }, 600);
+      
+      simpanLogSpin(currentUid, currentTok, `Kartu ${String.fromCharCode(65 + idx)}`, h.hadiah, h.label);
+    };
+  });
+}
+
+// Enhanced claim button functionality
+const originalClaimClick = btnClaim.onclick;
+btnClaim.onclick = () => {
+  btnClaim.disabled = true;
+  btnClaim.classList.add('claim-success');
+  btnClaim.textContent = 'Berhasil Diklaim! ✅';
+  desc.textContent = 'Terima kasih! Hadiah akan segera diproses.';
+  
+  // Add particles effect around claim button
+  setTimeout(() => {
+    btnClaim.style.background = 'linear-gradient(135deg, #00ff00, #00cc00)';
+    btnClaim.style.color = '#fff';
+  }, 500);
+};
+
+// Initialize enhanced effects
 document.addEventListener('DOMContentLoaded', () => {
-  addProfessionalEffects();
-  enhanceSpinButton();
+  addCardHoverSounds();
+  
+  // Replace original shuffle with enhanced version
+  const originalBtnSpinClick = btnSpin.onclick;
+  btnSpin.onclick = () => {
+    if (sudahSpin) return;
+    sudahSpin = true;
+    currentUid = inputId.value.trim();
+    currentTok = inputToken.value.trim();
+    btnSpin.disabled = true;
+    btnSpin.classList.remove('active');
+    btnSpin.classList.add('spinning');
+    inputId.disabled = true;
+    inputToken.disabled = true;
+    inputId.oninput = null;
+    inputToken.oninput = null;
+    msg.textContent = '';
+    
+    setTimeout(() => {
+      btnSpin.classList.remove('spinning');
+      enhancedShuffleAnimation();
+    }, 1000);
+  };
 });
