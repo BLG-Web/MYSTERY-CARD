@@ -147,32 +147,30 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 30px;
+  padding: 4px 0 4px 0; /* padding makin tipis */
   background: rgba(35, 39, 47, 0.3);
   border-radius: 20px;
   border: 2px solid rgba(56, 182, 255, 0.2);
   backdrop-filter: blur(10px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   width: 100%;
-  overflow: hidden;
+  overflow: visible !important;
+  min-height: unset;
 }
 .card-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  gap: 18px;
-  margin-bottom: 0;
-  margin-top: 0;
+  gap: 4px; /* grid makin rapat */
+  margin: 0;
   z-index: 1;
   justify-items: center;
   align-items: center;
   width: 100%;
-  max-width: 600px;
+  max-width: 520px;
   padding: 0;
-  /* overflow: visible agar efek scale tidak terpotong */
   overflow: visible !important;
 }
-
 /* Hapus highlight dan outline dari cardGrid */
 #cardGrid {
   outline: none !important;
@@ -191,26 +189,29 @@ h2 {
 }
 .card-outer {
   perspective: 1200px;
-  width: clamp(90px, 13vw, 130px);
-  height: clamp(135px, 19vw, 190px);
+  width: clamp(70px, 11vw, 110px); /* lebih kecil agar muat grid */
+  height: clamp(105px, 16vw, 160px);
   position: relative;
   transition: all 0.3s cubic-bezier(.4,2,.6,1);
   animation: cardEntry 0.8s ease-out;
-  /* overflow: visible agar efek scale tidak terpotong */
   overflow: visible !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
-.card-outer:hover { 
-  transform: scale(1.05) translateY(-8px) rotateY(5deg);
-  animation: cardHover 0.3s ease-in-out;
+.card-outer:hover, .card.selected, .card.flipped {
+  z-index: 10 !important;
 }
-.card-outer:nth-child(1) { animation-delay: 0.1s; }
-.card-outer:nth-child(2) { animation-delay: 0.2s; }
-.card-outer:nth-child(3) { animation-delay: 0.3s; }
-.card-outer:nth-child(4) { animation-delay: 0.4s; }
-.card-outer:nth-child(5) { animation-delay: 0.5s; }
-.card-outer:nth-child(6) { animation-delay: 0.6s; }
-.card-outer:nth-child(7) { animation-delay: 0.7s; }
-.card-outer:nth-child(8) { animation-delay: 0.8s; }
+.card.selected {
+  border: 3px solid #fff;
+  box-shadow: 0 0 40px rgba(56, 182, 255, 0.8), 0 8px 32px rgba(58, 80, 107, 0.8), inset 0 2px 0 rgba(255, 255, 255, 0.2);
+  z-index: 2;
+  transform: scale(1.13) translateY(-4px);
+}
+.card.flipped {
+  transform: rotateY(180deg) scale(1.13);
+  cursor: default;
+  pointer-events: none;
+}
 /* Enhanced professional styling */
 .card {
   width: 100%;
@@ -688,13 +689,13 @@ h2 {
   }
   
   .card-grid {
-    gap: 15px;
-    max-width: 500px;
+    gap: 8px;
+    max-width: 340px;
   }
   
   .card-outer {
-    width: clamp(80px, 18vw, 140px);
-    height: clamp(120px, 27vw, 210px);
+    width: clamp(60px, 18vw, 90px);
+    height: clamp(90px, 27vw, 130px);
   }
   
   .header-section {
@@ -761,13 +762,13 @@ h2 {
 
 @media (max-width: 480px) {
   .card-grid {
-    max-width: 300px;
-    gap: 8px;
+    max-width: 220px;
+    gap: 4px;
   }
   
   .card-outer {
-    width: clamp(60px, 22vw, 85px);
-    height: clamp(90px, 33vw, 128px);
+    width: clamp(40px, 22vw, 60px);
+    height: clamp(60px, 33vw, 90px);
   }
   
   .card .face img,
