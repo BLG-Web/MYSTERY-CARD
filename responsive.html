@@ -6,6 +6,7 @@
   <title>Slot Merah Hitam - Mystery Card Spin</title>
   <link rel="stylesheet" href="style.css">
   <style>
+    /* Additional styles beyond imported style.css */
     .menu-bar {
       display: flex;
       align-items: center;
@@ -253,6 +254,93 @@
       } else {
         menuItems.style.display = 'none';
       }
+    });
+    
+    // ULTIMATE HORIZONTAL SCROLLBAR PREVENTION
+    function preventHorizontalScroll() {
+      // Force hide horizontal scrollbar
+      document.documentElement.style.overflowX = 'hidden';
+      document.body.style.overflowX = 'hidden';
+      document.documentElement.style.maxWidth = '100vw';
+      document.body.style.maxWidth = '100vw';
+      
+      // Add class to body
+      document.body.classList.add('no-horizontal-scroll');
+      
+      // SPECIFIC FIX FOR CARD-GRID
+      const cardGrid = document.querySelector('.card-grid');
+      if (cardGrid) {
+        cardGrid.style.overflowX = 'hidden';
+        cardGrid.style.maxWidth = '100%';
+        cardGrid.style.width = '100%';
+        cardGrid.style.contain = 'layout style paint';
+        cardGrid.style.isolation = 'isolate';
+        
+        // Remove problematic pseudo-elements
+        const style = document.createElement('style');
+        style.textContent = `
+          .card-grid::before,
+          .card-grid::after {
+            display: none !important;
+            content: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+          }
+        `;
+        document.head.appendChild(style);
+      }
+      
+      // Check all card-outer elements
+      const cardOuters = document.querySelectorAll('.card-outer');
+      cardOuters.forEach(outer => {
+        outer.style.overflowX = 'hidden';
+        outer.style.maxWidth = '100%';
+        outer.style.contain = 'layout style paint';
+      });
+      
+      // Check all card elements
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        card.style.overflowX = 'hidden';
+        card.style.maxWidth = '100%';
+        card.style.contain = 'layout style paint';
+      });
+      
+      // Check and fix any elements that might cause overflow
+      const elements = document.querySelectorAll('*');
+      elements.forEach(el => {
+        if (el.scrollWidth > el.clientWidth) {
+          el.style.overflowX = 'hidden';
+          el.style.maxWidth = '100%';
+        }
+      });
+    }
+    
+    // Run immediately and on load
+    preventHorizontalScroll();
+    window.addEventListener('load', preventHorizontalScroll);
+    window.addEventListener('resize', preventHorizontalScroll);
+    
+    // More aggressive monitoring for card-grid
+    setInterval(() => {
+      const cardGrid = document.querySelector('.card-grid');
+      if (cardGrid && cardGrid.scrollWidth > cardGrid.clientWidth) {
+        cardGrid.style.overflowX = 'hidden';
+        cardGrid.style.maxWidth = '100%';
+        cardGrid.style.width = '100%';
+      }
+    }, 100);
+    
+    // Monitor for dynamic content changes
+    const observer = new MutationObserver(() => {
+      preventHorizontalScroll();
+    });
+    
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['style', 'class']
     });
   </script>
 </body>
