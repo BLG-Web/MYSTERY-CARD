@@ -26,8 +26,11 @@ let selectedIdx = null;
 
 // Fungsi helper untuk mengatur status agar tidak tertimpa
 function setStatus(text) {
-  desc.textContent = text;
-  console.log('Status diset ke:', text);
+  const desc = document.getElementById('desc');
+  if (desc) {
+    desc.textContent = text;
+    console.log('Status diset ke:', text);
+  }
 }
 
 function renderCardLogo() {
@@ -62,11 +65,11 @@ async function cekInput() {
   const tokVal = inputToken.value.trim();
   btnSpin.disabled = true;
   btnSpin.classList.remove('active');
-  desc.textContent = 'Isi ID dan Token, lalu tekan SPIN!';
+  setStatus('Isi ID dan Token, lalu tekan SPIN!');
   msg.textContent = '';
   
   if (idVal && tokVal) {
-    desc.textContent = 'Cek token ke server...';
+    setStatus('Cek token ke server...');
     console.log('Memulai validasi token...');
     try {
       const res = await fetch(`${APPS_SCRIPT_URL}?token=${encodeURIComponent(tokVal)}`);
@@ -74,15 +77,15 @@ async function cekInput() {
       if (valid === true) {
         btnSpin.disabled = false;
         btnSpin.classList.add('active');
-        desc.textContent = 'Tekan SPIN untuk mengacak kartu!';
+        setStatus('Tekan SPIN untuk mengacak kartu!');
         console.log('Token valid, tombol SPIN aktif');
       } else {
-        desc.textContent = 'Token tidak valid atau sudah digunakan!';
+        setStatus('Token tidak valid atau sudah digunakan!');
         msg.textContent = 'Token tidak valid atau sudah digunakan!';
         console.log('Token tidak valid');
       }
     } catch(e) {
-      desc.textContent = 'Gagal koneksi ke server.';
+      setStatus('Gagal koneksi ke server.');
       msg.textContent = 'Gagal koneksi ke server.';
       console.error('Error koneksi:', e);
     }
@@ -139,8 +142,9 @@ async function simpanLogSpin(userId, token, pilihan, hasil, gambarDipilih) {
 
 btnClaim.onclick = ()=>{
   btnClaim.disabled = true;
-  btnClaim.textContent = 'Berhasil diklaim!';
-  desc.textContent = 'Terima kasih, data sudah dikirim.';
+  btnClaim.classList.add('claim-success');
+  btnClaim.textContent = 'Berhasil Diklaim! ✅';
+  setStatus('Terima kasih! Hadiah akan segera diproses.');
 };
 
 // Professional animation enhancements
@@ -426,7 +430,7 @@ btnClaim.onclick = () => {
   btnClaim.disabled = true;
   btnClaim.classList.add('claim-success');
   btnClaim.textContent = 'Berhasil Diklaim! ✅';
-  desc.textContent = 'Terima kasih! Hadiah akan segera diproses.';
+  setStatus('Terima kasih! Hadiah akan segera diproses.');
   
   // Add particles effect around claim button
   setTimeout(() => {
