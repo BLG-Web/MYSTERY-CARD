@@ -65,6 +65,24 @@
       max-width: 900px;
       min-width: 320px;
     }
+    /* Tata letak 4-1-4 untuk 9 kartu */
+    .card-layout-4-1-4 {
+      display: grid;
+      grid-template-areas:
+        "a b c d"
+        ".  e  . ."
+        "f g h i";
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: 1fr 1fr 1fr;
+      gap: clamp(16px, 4vw, 64px);
+      justify-content: center;
+      align-items: center;
+      margin-bottom: clamp(10px, 2vw, 32px);
+      margin-top: clamp(8px, 2vw, 24px);
+      width: 100%;
+      max-width: 900px;
+      min-width: 320px;
+    }
     .card-outer {
       perspective: 1400px;
       width: clamp(60px, 15vw, 200px);
@@ -285,7 +303,7 @@
     #loadingOverlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(10, 35, 66, 0.7);
+      background: rgba(10, 35, 66, 0.35); /* lebih transparan */
       z-index: 99;
       display: none;
       align-items: center;
@@ -424,6 +442,15 @@
         margin-top: 8px;
       }
     }
+    .card-outer[data-pos="0"] { grid-area: a; }
+    .card-outer[data-pos="1"] { grid-area: b; }
+    .card-outer[data-pos="2"] { grid-area: c; }
+    .card-outer[data-pos="3"] { grid-area: d; }
+    .card-outer[data-pos="4"] { grid-area: e; }
+    .card-outer[data-pos="5"] { grid-area: f; }
+    .card-outer[data-pos="6"] { grid-area: g; }
+    .card-outer[data-pos="7"] { grid-area: h; }
+    .card-outer[data-pos="8"] { grid-area: i; }
   </style>
 </head>
 <body>
