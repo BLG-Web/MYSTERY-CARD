@@ -1,13 +1,13 @@
 // Gambar hadiah (bisa diganti dengan gambar lebih keren di folder assets)
 const hadiahList = [
-  {img: 'https://imgur.com/cB74lvl.png', label: 'PANDA', hadiah: 'MENANG 15.000'},
-  {img: 'https://imgur.com/aLShjER.png', label: 'KERBAU', hadiah: 'MENANG 10.000'},
-  {img: 'https://imgur.com/Os0fSxf.png', label: 'PENAMBANG', hadiah: 'BONUS 5.000'},
-  {img: 'https://imgur.com/XsDImXS.png', label: 'ZEUS', hadiah: 'ZONK'},
-  {img: 'https://imgur.com/pmrp0zR.png', label: 'SINGA', hadiah: 'MENANG 20.000'},
-  {img: 'https://imgur.com/1Q9QwQw.png', label: 'KUDA', hadiah: 'BONUS 7.000'},
-  {img: 'https://imgur.com/2Q9QwQw.png', label: 'ELANG', hadiah: 'MENANG 25.000'},
-  {img: 'https://imgur.com/3Q9QwQw.png', label: 'ZONK', hadiah: 'ZONK'}
+  {img: 'https://imgur.com/00ZWCDS.png', label: 'PANDA', hadiah: 'MENANG 12.000'},
+  {img: 'https://imgur.com/aLShjER.png', label: 'KERBAU', hadiah: 'MENANG 8.000'},
+  {img: 'https://imgur.com/Os0fSxf.png', label: 'PENAMBANG', hadiah: 'BONUS 7.000'},
+  {img: 'https://imgur.com/XsDImXS.png', label: 'ZEUS', hadiah: '2.000'},
+  {img: 'https://imgur.com/pRHplsF.png', label: 'PENYIHIR', hadiah: 'MENANG 6.000'},
+  {img: 'https://imgur.com/MrvdhiN.PNG', label: 'BANDITO', hadiah: 'BONUS 5.000'},
+  {img: 'https://imgur.com/qFkxSgZ.png', label: 'BABI', hadiah: 'MENANG 4.000'},
+  {img: 'https://imgur.com/Ml9UQmv.png', label: 'PRINCESS', hadiah: '3.000'}
 ];
 const LOGO_URL = 'https://imgur.com/pmrp0zR.png';
 
