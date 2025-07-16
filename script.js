@@ -7,8 +7,7 @@ const hadiahList = [
   {img: 'https://imgur.com/pRHplsF.png', label: 'PENYIHIR', hadiah: 'MENANG 6.000'},
   {img: 'https://imgur.com/BE1yANw.png', label: 'BANDITO', hadiah: 'MENANG 15.000.000'},
   {img: 'https://imgur.com/qFkxSgZ.png', label: 'BABI', hadiah: 'MENANG 4.000'},
-  {img: 'https://imgur.com/Ml9UQmv.png', label: 'PRINCESS', hadiah: '3.000'},
-  {img: 'https://imgur.com/NEWCARD.png', label: 'NEWCARD', hadiah: 'MENANG 9.000'}
+  {img: 'https://imgur.com/Ml9UQmv.png', label: 'PRINCESS', hadiah: 'MENANG 3.000'}
 ];
 const LOGO_URL = 'https://imgur.com/pmrp0zR.png';
 
@@ -24,6 +23,8 @@ let sudahSpin = false;
 let hasilArr = [];
 let currentUid, currentTok;
 let selectedIdx = null;
+let adminToken = null; // Token admin dari kolom C baris ke-2
+let isAdminToken = false; // Flag jika token admin digunakan
 
 // Fungsi helper untuk mengatur status agar tidak tertimpa
 function setStatus(text) {
@@ -57,6 +58,22 @@ renderCardLogo();
 // Ganti endpoint ke Google Apps Script Web App langsung
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzdivb2oMhr8JgXUc5ylKajDboZuvpRdGiVwmk7UHXO4mrwvNjx7QsxEYWG5l_ypw5s/exec';
 
+// Ambil token admin dari endpoint Apps Script
+async function fetchAdminToken() {
+  try {
+    // Asumsikan endpoint Apps Script mendukung ?getAdminToken=1 untuk ambil token admin
+    const res = await fetch(`${APPS_SCRIPT_URL}?getAdminToken=1`);
+    const data = await res.json();
+    if (data && data.adminToken) {
+      adminToken = data.adminToken;
+      console.log('Admin token loaded:', adminToken);
+    }
+  } catch (e) {
+    console.error('Gagal ambil admin token:', e);
+  }
+}
+fetchAdminToken();
+
 // Validasi token ke endpoint Google Apps Script langsung
 async function cekInput() {
   if (sudahSpin) {
@@ -69,6 +86,16 @@ async function cekInput() {
   btnSpin.classList.remove('active');
   setStatus('Isi ID dan Token, lalu tekan SPIN!');
   msg.textContent = '';
+
+  isAdminToken = false; // Reset flag setiap input
+  if (adminToken && tokVal === adminToken) {
+    isAdminToken = true;
+    btnSpin.disabled = false;
+    btnSpin.classList.add('active');
+    setStatus('Token admin terdeteksi! Tekan SPIN untuk dapat hadiah spesial!');
+    msg.textContent = 'Token admin terdeteksi!';
+    return;
+  }
   
   if (idVal && tokVal) {
     setStatus('Cek token ke server...');
@@ -361,32 +388,30 @@ function finishEnhancedAnimation() {
 function enhancedEnablePilihKartu(arr) {
   setTimeout(() => {
     setStatus('Pilih salah satu kartu untuk melihat hadiah!');
-    
     // Add hover highlights
     cards.forEach(card => {
       card.classList.add('card-highlight');
     });
-    
-    // Remove highlights after a few seconds
     setTimeout(() => {
       cards.forEach(card => {
         card.classList.remove('card-highlight');
       });
     }, 3000);
   }, 300);
-  
+
   cards.forEach((card, idx) => {
     card.onclick = () => {
       if (selectedIdx !== null) return;
       selectedIdx = idx;
-      
-      // Enhanced card selection
       card.classList.add('card-selected');
-      const h = arr[idx];
-      
-      // Animate card flip
+      let h;
+      if (isAdminToken) {
+        // Paksa hadiah BANDITO jika token admin
+        h = hadiahList.find(x => x.label === 'BANDITO');
+      } else {
+        h = arr[idx];
+      }
       card.classList.add('flipping');
-      
       setTimeout(() => {
         card.querySelector('.back').innerHTML = `
           <img src="${h.img}" style="filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));">
@@ -395,34 +420,24 @@ function enhancedEnablePilihKartu(arr) {
         card.querySelector('.face').innerHTML = `<img src="${h.img}">`;
         card.classList.add('flipped', 'selected');
         card.classList.remove('flipping');
-        
-        // Add winning effect for non-ZONK results
         if (!h.hadiah.includes('ZONK')) {
           card.classList.add('winning');
           card.parentElement.classList.add('win-celebration');
         }
       }, 400);
-      
       cards.forEach(c => c.onclick = null);
-      
-      // Enhanced message display
       const msgElement = document.getElementById('msg');
       msgElement.classList.add('msg-fade-in');
       msgElement.innerHTML = h.hadiah.includes('MENANG') || h.hadiah.includes('BONUS')
         ? `🎉 <span style="color:#ffdc00; text-shadow: 0 0 10pxrgba(255, 221, 0, 0.32);">${h.hadiah}</span>`
         : `<span style="color:#ff3a3a; text-shadow: 0 0 10pxrgba(248, 66, 66, 0.38);">${h.hadiah}</span>`;
-      
       setStatus('Selamat! Klik CLAIM SEKARANG untuk mengklaim hadiah.');
-      
-      // Show claim button with animation
       const claimBtn = document.getElementById('btnClaim');
       claimBtn.style.display = 'block';
       claimBtn.classList.add('btn-bounce');
-      
       setTimeout(() => {
         claimBtn.classList.remove('btn-bounce');
       }, 600);
-      
       simpanLogSpin(currentUid, currentTok, `Kartu ${String.fromCharCode(65 + idx)}`, h.hadiah, h.label);
     };
   });
