@@ -26,6 +26,10 @@ let selectedIdx = null;
 let adminToken = null; // Token admin dari kolom C baris ke-2
 let isAdminToken = false; // Flag jika token admin digunakan
 
+// Suara
+const spinSound = document.getElementById('spinSound');
+const hadiahSound = document.getElementById('zonkSound');
+
 // Fungsi helper untuk mengatur status agar tidak tertimpa
 function setStatus(text) {
   const desc = document.getElementById('desc');
@@ -136,7 +140,9 @@ btnSpin.onclick = () => {
   inputId.oninput = null;
   inputToken.oninput = null;
   msg.textContent = '';
-  
+  // Play spin sound
+  spinSound.currentTime = 0;
+  spinSound.play();
   setTimeout(() => {
     btnSpin.classList.remove('spinning');
     enhancedShuffleAnimation();
@@ -353,6 +359,9 @@ function startEnhancedFlipAnimation() {
 
 function finishEnhancedAnimation() {
   hideLoadingOverlay();
+  // Stop spin sound
+  spinSound.pause();
+  spinSound.currentTime = 0;
   
   // Reset all cards with staggered reveal
   cards.forEach((card, i) => {
@@ -424,6 +433,9 @@ function enhancedEnablePilihKartu(arr) {
           card.classList.add('winning');
           card.parentElement.classList.add('win-celebration');
         }
+        // Play hadiah sound
+        hadiahSound.currentTime = 0;
+        hadiahSound.play();
       }, 400);
       cards.forEach(c => c.onclick = null);
       const msgElement = document.getElementById('msg');
