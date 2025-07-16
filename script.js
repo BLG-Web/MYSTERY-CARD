@@ -5,9 +5,10 @@ const hadiahList = [
   {img: 'https://imgur.com/Os0fSxf.png', label: 'PENAMBANG', hadiah: 'MENANG 7.000'},
   {img: 'https://imgur.com/XsDImXS.png', label: 'ZEUS', hadiah: 'MENANG 2.000'},
   {img: 'https://imgur.com/pRHplsF.png', label: 'PENYIHIR', hadiah: 'MENANG 6.000'},
-  {img: 'https://imgur.com/BE1yANw.png', label: 'BANDITO', hadiah: 'MENANG 5.000'},
+  {img: 'https://imgur.com/BE1yANw.png', label: 'BANDITO', hadiah: 'MENANG 15.000.000'},
   {img: 'https://imgur.com/qFkxSgZ.png', label: 'BABI', hadiah: 'MENANG 4.000'},
-  {img: 'https://imgur.com/Ml9UQmv.png', label: 'PRINCESS', hadiah: 'MENANG 3.000'}
+  {img: 'https://imgur.com/Ml9UQmv.png', label: 'PRINCESS', hadiah: '3.000'},
+  {img: 'https://imgur.com/NEWCARD.png', label: 'NEWCARD', hadiah: 'MENANG 9.000'}
 ];
 const LOGO_URL = 'https://imgur.com/pmrp0zR.png';
 
@@ -36,6 +37,7 @@ function setStatus(text) {
 function renderCardLogo() {
   cardGrid.innerHTML = '';
   cards = [];
+  cardGrid.className = 'card-grid';
   for(let i=0;i<8;i++){
     let outer = document.createElement('div');
     outer.className = 'card-outer';
@@ -346,9 +348,11 @@ function finishEnhancedAnimation() {
     }, i * 150);
   });
   
-  // Generate results and enable selection
+  // Generate results dan enable selection
   setTimeout(() => {
-    hasilArr = hadiahList.slice().sort(() => Math.random() - 0.5).slice(0, 8);
+    // Filter BANDITO dari hasil acak
+    const hadiahTanpaBandito = hadiahList.filter(h => h.label !== 'BANDITO');
+    hasilArr = hadiahTanpaBandito.slice().sort(() => Math.random() - 0.5).slice(0, 8);
     console.log('Hasil shuffle:', hasilArr);
     enhancedEnablePilihKartu(hasilArr);
   }, 1200);
