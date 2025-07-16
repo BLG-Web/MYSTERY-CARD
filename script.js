@@ -2,12 +2,12 @@
 const hadiahList = [
   {img: 'https://imgur.com/00ZWCDS.png', label: 'PANDA', hadiah: 'MENANG 12.000'},
   {img: 'https://imgur.com/aLShjER.png', label: 'KERBAU', hadiah: 'MENANG 8.000'},
-  {img: 'https://imgur.com/Os0fSxf.png', label: 'PENAMBANG', hadiah: 'BONUS 7.000'},
-  {img: 'https://imgur.com/XsDImXS.png', label: 'ZEUS', hadiah: '2.000'},
+  {img: 'https://imgur.com/Os0fSxf.png', label: 'PENAMBANG', hadiah: 'MENANG 7.000'},
+  {img: 'https://imgur.com/XsDImXS.png', label: 'ZEUS', hadiah: 'MENANG 2.000'},
   {img: 'https://imgur.com/pRHplsF.png', label: 'PENYIHIR', hadiah: 'MENANG 6.000'},
-  {img: 'https://imgur.com/MrvdhiN.PNG', label: 'BANDITO', hadiah: 'BONUS 5.000'},
+  {img: 'https://imgur.com/BE1yANw.png', label: 'BANDITO', hadiah: 'MENANG 5.000'},
   {img: 'https://imgur.com/qFkxSgZ.png', label: 'BABI', hadiah: 'MENANG 4.000'},
-  {img: 'https://imgur.com/Ml9UQmv.png', label: 'PRINCESS', hadiah: '3.000'}
+  {img: 'https://imgur.com/Ml9UQmv.png', label: 'PRINCESS', hadiah: 'MENANG 3.000'}
 ];
 const LOGO_URL = 'https://imgur.com/pmrp0zR.png';
 
@@ -405,8 +405,8 @@ function enhancedEnablePilihKartu(arr) {
       const msgElement = document.getElementById('msg');
       msgElement.classList.add('msg-fade-in');
       msgElement.innerHTML = h.hadiah.includes('MENANG') || h.hadiah.includes('BONUS')
-        ? `🎉 <span style="color:#ffdc00; text-shadow: 0 0 10px #ffdc00;">${h.hadiah}</span>`
-        : `<span style="color:#ff3a3a; text-shadow: 0 0 10px #ff3a3a;">${h.hadiah}</span>`;
+        ? `🎉 <span style="color:#ffdc00; text-shadow: 0 0 10pxrgba(255, 221, 0, 0.32);">${h.hadiah}</span>`
+        : `<span style="color:#ff3a3a; text-shadow: 0 0 10pxrgba(248, 66, 66, 0.38);">${h.hadiah}</span>`;
       
       setStatus('Selamat! Klik CLAIM SEKARANG untuk mengklaim hadiah.');
       
